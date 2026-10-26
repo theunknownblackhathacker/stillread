@@ -2,12 +2,12 @@
 
 import Foundation
 
-/// One token shown by the RSVP reader.
-/// Punctuation flags are captured now so the timing multipliers (Milestone 2)
-/// can be added without touching the tokenizer.
+/// One token of the text being read.
 struct Word: Identifiable, Hashable, Sendable {
     let id: Int
     let text: String
+    /// Letters and digits only — used for the long-word timing rule (spec §1).
+    let letterCount: Int
     let endsClause: Bool
     let endsSentence: Bool
     let endsParagraph: Bool

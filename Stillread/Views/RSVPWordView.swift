@@ -3,24 +3,26 @@
 import SwiftUI
 import UIKit
 
-/// Shows one word with its anchor letter pinned to the horizontal centre of the view.
+/// Shows one word (or chunk) with its anchor letter pinned to the horizontal centre.
 /// Prefix and suffix get equal-width frames on each side of the anchor, so the anchor's
-/// centre never moves. Long words shrink uniformly so they never truncate.
+/// centre never moves. Long text shrinks uniformly so it never truncates.
 struct RSVPWordView: View {
-    let word: String
+    let parts: ORPParts
+    var fontScale: CGFloat = 1
     var anchorColor: Color = .red
 
-    @ScaledMetric(relativeTo: .largeTitle) private var baseFontSize: CGFloat = 46
+    @ScaledMetric(relativeTo: .largeTitle) private var scaledFontSize: CGFloat = 46
 
     private let uiWeight: UIFont.Weight = .medium
     private let fontWeight: Font.Weight = .medium
     private let horizontalPadding: CGFloat = 20
 
+    private var baseFontSize: CGFloat { scaledFontSize * fontScale }
+
     var body: some View {
         GeometryReader { proxy in
             let width = proxy.size.width
-            let parts = OptimalRecognitionPoint.split(word)
-            let fontSize = fittingFontSize(for: parts, in: width)
+            let fontSize = fittingFontSize(in: width)
             let anchorWidth = measure(parts.anchor, size: fontSize)
             let sideWidth = max((width - anchorWidth) / 2, 0)
 
@@ -51,7 +53,7 @@ struct RSVPWordView: View {
 
     // MARK: - Measuring
 
-    private func fittingFontSize(for parts: ORPParts, in width: CGFloat) -> CGFloat {
+    private func fittingFontSize(in width: CGFloat) -> CGFloat {
         let anchorHalf = measure(parts.anchor, size: baseFontSize) / 2
         let widestSide = max(
             measure(parts.prefix, size: baseFontSize),
@@ -99,8 +101,8 @@ private struct ReadingGuides: View {
 
 #Preview {
     VStack(spacing: 24) {
-        RSVPWordView(word: "reading").frame(height: 140)
-        RSVPWordView(word: "“Hello,").frame(height: 140)
-        RSVPWordView(word: "internationalization").frame(height: 140)
+        RSVPWordView(parts: OptimalRecognitionPoint.split("reading")).frame(height: 140)
+        RSVPWordView(parts: OptimalRecognitionPoint.split("“Hello,")).frame(height: 140)
+        RSVPWordView(parts: OptimalRecognitionPoint.splitPhrase("the quiet line"), fontScale: 0.8).frame(height: 140)
     }
 }

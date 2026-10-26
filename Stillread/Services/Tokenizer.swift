@@ -6,7 +6,7 @@ import Foundation
 enum Tokenizer {
     private static let closingCharacters: Set<Character> = ["\"", "”", "’", "'", ")", "]", "}", "»"]
     private static let sentenceEnders: Set<Character> = [".", "!", "?", "…"]
-    private static let clauseEnders: Set<Character> = [",", ";", ":", "—", "–"]
+    private static let clauseEnders: Set<Character> = [",", ";"]
 
     static func words(from text: String) -> [Word] {
         let normalized = text.replacingOccurrences(of: "\r\n", with: "\n")
@@ -22,6 +22,7 @@ enum Tokenizer {
                     Word(
                         id: result.count,
                         text: String(token),
+                        letterCount: token.reduce(0) { $1.isLetter || $1.isNumber ? $0 + 1 : $0 },
                         endsClause: mark.map { clauseEnders.contains($0) } ?? false,
                         endsSentence: mark.map { sentenceEnders.contains($0) } ?? false,
                         endsParagraph: offset == tokens.count - 1
