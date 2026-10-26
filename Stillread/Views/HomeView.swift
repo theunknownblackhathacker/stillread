@@ -2,6 +2,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 /// Main screen: the library. Each card zooms into the reader (and back) with the
 /// system zoom transition, which is interactive and runs at 120 Hz.
@@ -12,7 +13,9 @@ struct HomeView: View {
     @AppStorage("reader.wordsPerMinute") private var wordsPerMinute = 350
 
     @State private var openReader: OpenReader?
-    @State private var isAddingText = false
+    @State private var addRequest: AddRequest?
+    /// An import that arrived while something else was on screen; shown once that closes.
+    @State private var pendingAddRequest: AddRequest?
     @State private var isGenerating = false
     @State private var isShowingProgress = false
     /// Set by the generator's "Read now"; opened once the sheet has finished closing.
@@ -45,22 +48,26 @@ struct HomeView: View {
         }
         .scrollBounceBehavior(.basedOnSize)
         .background(Color(.systemBackground))
-        .fullScreenCover(item: $openReader) { reader in
+        .fullScreenCover(item: $openReader, onDismiss: presentPendingAddRequest) { reader in
             ReaderScreen(text: reader.text, viewModel: reader.viewModel)
                 .navigationTransition(.zoom(sourceID: reader.id, in: zoom))
         }
-        .sheet(isPresented: $isAddingText) {
-            AddTextView()
+        .sheet(item: $addRequest, onDismiss: presentPendingAddRequest) { request in
+            AddTextView(viewModel: request.viewModel)
         }
-        .sheet(isPresented: $isGenerating, onDismiss: openPendingText) {
+        .sheet(isPresented: $isGenerating, onDismiss: {
+            openPendingText()
+            presentPendingAddRequest()
+        }) {
             GenerateTextView { text in
                 textToOpen = text
             }
         }
-        .sheet(isPresented: $isShowingProgress) {
+        .sheet(isPresented: $isShowingProgress, onDismiss: presentPendingAddRequest) {
             ProgressScreen()
                 .navigationTransition(.zoom(sourceID: progressID, in: zoom))
         }
+        .onOpenURL(perform: handleIncoming)
         .task {
             LibrarySeeder.seedIfNeeded(in: modelContext)
         }
@@ -87,7 +94,7 @@ struct HomeView: View {
                         isGenerating = true
                     }
                     CircleIconButton(systemImage: "plus", accessibilityLabel: "Add text", size: 48) {
-                        isAddingText = true
+                        addRequest = AddRequest(viewModel: AddTextViewModel())
                     }
                 }
             }
@@ -172,7 +179,7 @@ struct HomeView: View {
             Text("Your library is empty")
                 .font(.title3.weight(.semibold))
 
-            Text("Generate a text with AI, or paste an article or chapter you want to read faster.")
+            Text("Generate a text with AI, or add an article, a PDF or a scanned page you want to read faster.")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -181,14 +188,52 @@ struct HomeView: View {
                 PrimaryActionButton(title: "Generate with AI", systemImage: "sparkles") {
                     isGenerating = true
                 }
-                SecondaryActionButton(title: "Paste a text", systemImage: "doc.on.clipboard") {
-                    isAddingText = true
+                SecondaryActionButton(title: "Add your own text", systemImage: "plus") {
+                    addRequest = AddRequest(viewModel: AddTextViewModel())
                 }
             }
             .padding(.top, 4)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 48)
+    }
+
+    // MARK: - Incoming imports (Share Extension, "Open in Stillread")
+
+    private func handleIncoming(_ url: URL) {
+        guard let incoming = IncomingImport(url: url) else { return }
+        let request = AddRequest(viewModel: AddTextViewModel())
+        let model = request.viewModel
+
+        switch incoming {
+        case .webPage(let webURL):
+            model.importWebPage(webURL)
+        case .text(let text, let title):
+            model.receiveShared(text, title: title)
+        case .file(let fileURL):
+            model.importFile(at: fileURL)
+        case .pasteboard:
+            if let string = UIPasteboard.general.string {
+                model.receiveShared(string)
+            }
+        }
+
+        let somethingIsOpen = openReader != nil || addRequest != nil || isGenerating || isShowingProgress
+        if somethingIsOpen {
+            pendingAddRequest = request
+            openReader = nil
+            addRequest = nil
+            isGenerating = false
+            isShowingProgress = false
+        } else {
+            addRequest = request
+        }
+    }
+
+    private func presentPendingAddRequest() {
+        guard let request = pendingAddRequest else { return }
+        pendingAddRequest = nil
+        addRequest = request
     }
 
     private func openPendingText() {
@@ -201,6 +246,12 @@ struct HomeView: View {
         let viewModel = ReaderViewModel(title: text.title, text: text.body, startWord: text.lastWordIndex)
         openReader = OpenReader(text: text, viewModel: viewModel)
     }
+}
+
+/// One "New text" sheet with its own view model, so imports can start before it appears.
+private struct AddRequest: Identifiable {
+    let id = UUID()
+    let viewModel: AddTextViewModel
 }
 
 /// The text being read plus its reader state. Created once per opening,

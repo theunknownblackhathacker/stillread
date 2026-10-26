@@ -2,14 +2,18 @@
 
 import SwiftUI
 import SwiftData
+import UniformTypeIdentifiers
 
-/// Sheet for pasting or typing your own text.
+/// Sheet for adding your own text: paste, import a PDF/.txt, or scan printed pages.
+/// Shared pages from Safari land here too, already filled in.
 struct AddTextView: View {
+    let viewModel: AddTextViewModel
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-
-    @State private var viewModel = AddTextViewModel()
     @FocusState private var focusedField: Field?
+    @State private var isPickingFile = false
+    @State private var isScanning = false
 
     private enum Field {
         case title
@@ -17,11 +21,13 @@ struct AddTextView: View {
     }
 
     var body: some View {
+        let model = viewModel
         @Bindable var viewModel = viewModel
-        let model = self.viewModel
 
         NavigationStack {
             VStack(spacing: 0) {
+                sourceBar(model)
+
                 TextField("Title (optional)", text: $viewModel.title)
                     .font(.title3.weight(.semibold))
                     .submitLabel(.next)
@@ -42,8 +48,8 @@ struct AddTextView: View {
                         .padding(.horizontal, 15)
                         .padding(.top, 4)
 
-                    if viewModel.body.isEmpty {
-                        Text("Paste or type your text here.")
+                    if viewModel.body.isEmpty, !viewModel.isImporting {
+                        Text("Paste or type your text here, or import a PDF, a .txt file or a scanned page.")
                             .font(.body)
                             .foregroundStyle(.tertiary)
                             .padding(.horizontal, 20)
@@ -51,27 +57,58 @@ struct AddTextView: View {
                             .allowsHitTesting(false)
                             .transition(.opacity)
                     }
+
+                    if let status = viewModel.importStatus {
+                        VStack(spacing: 12) {
+                            ProgressView()
+                            Text(status)
+                                .font(.subheadline.weight(.medium))
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.ultraThinMaterial)
+                        .transition(.opacity)
+                    }
                 }
-                .animation(.smooth(duration: 0.3), value: viewModel.body.isEmpty)
+
+                if let error = viewModel.importError {
+                    Label {
+                        Text(error)
+                    } icon: {
+                        Image(systemName: "exclamationmark.triangle")
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
             }
+            .animation(.smooth(duration: 0.35), value: viewModel.isImporting)
+            .animation(.smooth(duration: 0.35), value: viewModel.body.isEmpty)
             .background(Color(.systemBackground))
             .navigationTitle("New text")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("Cancel") {
+                        model.cancelImport()
+                        dismiss()
+                    }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") { save() }
                         .disabled(!viewModel.canSave)
                 }
                 ToolbarItemGroup(placement: .bottomBar) {
-                    PasteButton(payloadType: String.self) { strings in
-                        Task { @MainActor in
-                            model.paste(strings)
-                        }
+                    Label {
+                        Text(viewModel.source.label)
+                    } icon: {
+                        Image(systemName: viewModel.source.symbolName)
                     }
-                    .labelStyle(.titleAndIcon)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
 
                     Spacer()
 
@@ -82,7 +119,50 @@ struct AddTextView: View {
                         .contentTransition(.numericText())
                 }
             }
+            .fileImporter(isPresented: $isPickingFile, allowedContentTypes: [.pdf, .plainText]) { result in
+                if case .success(let url) = result {
+                    model.importFile(at: url)
+                }
+            }
+            .fullScreenCover(isPresented: $isScanning) {
+                DocumentScannerView { images in
+                    isScanning = false
+                    let pages = images.compactMap { $0.jpegData(compressionQuality: 0.85) }
+                    model.importScan(pages)
+                } onCancel: {
+                    isScanning = false
+                }
+                .ignoresSafeArea()
+            }
         }
+        .interactiveDismissDisabled(viewModel.isImporting)
+    }
+
+    private func sourceBar(_ model: AddTextViewModel) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                PasteButton(payloadType: String.self) { strings in
+                    Task { @MainActor in
+                        model.paste(strings)
+                    }
+                }
+                .buttonBorderShape(.capsule)
+                .labelStyle(.titleAndIcon)
+
+                SourceChip(title: "File", systemImage: "doc") {
+                    isPickingFile = true
+                }
+
+                if DocumentScannerView.isSupported {
+                    SourceChip(title: "Scan", systemImage: "doc.viewfinder") {
+                        isScanning = true
+                    }
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+        }
+        .scrollBounceBehavior(.basedOnSize, axes: .horizontal)
     }
 
     private func save() {
@@ -94,7 +174,26 @@ struct AddTextView: View {
     }
 }
 
+private struct SourceChip: View {
+    let title: LocalizedStringKey
+    let systemImage: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(title, systemImage: systemImage)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.primary)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(Color(.secondarySystemBackground), in: Capsule())
+                .contentShape(Capsule())
+        }
+        .buttonStyle(PressableCardStyle())
+    }
+}
+
 #Preview {
-    AddTextView()
+    AddTextView(viewModel: AddTextViewModel())
         .modelContainer(for: ReadingText.self, inMemory: true)
 }

@@ -10,8 +10,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "6.0"
-    MARKETING_VERSION: "0.5.0"
-    CURRENT_PROJECT_VERSION: "6"
+    MARKETING_VERSION: "0.6.0"
+    CURRENT_PROJECT_VERSION: "7"
 
 targets:
   Stillread:
@@ -21,17 +21,42 @@ targets:
       - path: Stillread
         excludes:
           - Info.plist
+    dependencies:
+      # Embedded into Stillread.app/PlugIns.
+      - target: StillreadShare
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.kevin.stillread
         TARGETED_DEVICE_FAMILY: "1"
-        # Extra keys (120 Hz) live in Info.plist; Xcode merges the generated keys into it.
+        # Extra keys (120 Hz, URL scheme, document types) live in Info.plist;
+        # Xcode merges the generated keys into it.
         INFOPLIST_FILE: Stillread/Info.plist
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Stillread
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_NSCameraUsageDescription: "Stillread uses the camera to scan printed pages into text you can read."
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+
+  StillreadShare:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: StillreadShare
+        excludes:
+          - Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.kevin.stillread.share
+        TARGETED_DEVICE_FAMILY: "1"
+        INFOPLIST_FILE: StillreadShare/Info.plist
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Stillread
+        # Needed to open the main app from the extension via the responder chain.
+        APPLICATION_EXTENSION_API_ONLY: NO
+        SKIP_INSTALL: YES
         CODE_SIGNING_ALLOWED: NO
         CODE_SIGNING_REQUIRED: NO
 
@@ -40,3 +65,4 @@ schemes:
     build:
       targets:
         Stillread: all
+        StillreadShare: all
