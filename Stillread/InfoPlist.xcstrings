@@ -1,0 +1,40 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSCameraUsageDescription": {
+      "localizations": {
+        "el": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Το Stillread χρησιμοποιεί την κάμερα για να σαρώνει έντυπες σελίδες σε κείμενο που μπορείς να διαβάσεις."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stillread usa la cámara para escanear páginas impresas y convertirlas en texto que puedes leer."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stillread usa la fotocamera per scansionare pagine stampate e trasformarle in testo da leggere."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stillread использует камеру, чтобы сканировать печатные страницы в текст для чтения."
+          }
+        },
+        "sq": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stillread përdor kamerën për të skanuar faqe të shtypura në tekst që mund ta lexosh."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

@@ -4,6 +4,7 @@ name: Stillread
 
 options:
   bundleIdPrefix: com.kevin
+  developmentLanguage: en
   deploymentTarget:
     iOS: "26.0"
 
@@ -12,6 +13,8 @@ settings:
     SWIFT_VERSION: "6.0"
     MARKETING_VERSION: "0.7.0"
     CURRENT_PROJECT_VERSION: "8"
+    SWIFT_EMIT_LOC_STRINGS: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
 
 targets:
   Stillread:

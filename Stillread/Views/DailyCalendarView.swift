@@ -195,7 +195,7 @@ private struct DayCell: View {
         .buttonStyle(.plain)
         .disabled(isFuture)
         .accessibilityLabel(Text(date, format: .dateTime.day().month(.wide)))
-        .accessibilityValue(hasText ? (isFinished ? Text("Read") : Text("Daily text")) : Text(verbatim: ""))
+        .accessibilityValue(hasText ? (isFinished ? Text("Finished") : Text("Daily text")) : Text(verbatim: ""))
     }
 }
 

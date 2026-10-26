@@ -159,7 +159,7 @@ private struct StreakCard: View {
                     .frame(maxWidth: .infinity)
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel(Text(day.date, format: .dateTime.weekday(.wide)))
-                    .accessibilityValue(day.didRead ? Text("Read") : Text("No reading"))
+                    .accessibilityValue(day.didRead ? Text("Read that day") : Text("No reading"))
                 }
             }
         }
@@ -174,8 +174,8 @@ private struct SpeedChartCard: View {
 
     @State private var selectedDay: Date?
 
-    private let speedName = "Speed"
-    private let effectiveName = "Effective"
+    private let speedName = String(localized: "Speed")
+    private let effectiveName = String(localized: "Effective")
 
     var body: some View {
         Card {
@@ -258,10 +258,10 @@ private struct SpeedChartCard: View {
     private func tooltipRows(for day: Date) -> [ChartTooltip.Row] {
         var rows: [ChartTooltip.Row] = []
         if let value = speed.first(where: { Calendar.current.isDate($0.date, inSameDayAs: day) }) {
-            rows.append(.init(color: ChartPalette.series1, label: speedName, value: "\(Int(value.value.rounded())) wpm"))
+            rows.append(.init(color: ChartPalette.series1, label: speedName, value: String(localized: "\(Int(value.value.rounded())) wpm")))
         }
         if let value = effective.first(where: { Calendar.current.isDate($0.date, inSameDayAs: day) }) {
-            rows.append(.init(color: ChartPalette.series2, label: effectiveName, value: "\(Int(value.value.rounded())) wpm"))
+            rows.append(.init(color: ChartPalette.series2, label: effectiveName, value: String(localized: "\(Int(value.value.rounded())) wpm")))
         }
         return rows
     }
@@ -300,7 +300,7 @@ private struct AccuracyChartCard: View {
                         ) {
                             ChartTooltip(
                                 date: point.date,
-                                rows: [.init(color: ChartPalette.series1, label: "Accuracy", value: "\(Int(point.value.rounded()))%")]
+                                rows: [.init(color: ChartPalette.series1, label: String(localized: "Accuracy"), value: "\(Int(point.value.rounded()))%")]
                             )
                         }
                 }
@@ -411,7 +411,7 @@ private struct BestsCard: View {
 
     private func wpmText(_ value: Int?) -> String {
         guard let value else { return "—" }
-        return "\(value.formatted()) wpm"
+        return String(localized: "\(value) wpm")
     }
 }
 
