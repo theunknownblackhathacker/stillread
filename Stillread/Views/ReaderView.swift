@@ -14,13 +14,19 @@ struct ReaderView<FinishedPanel: View>: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    /// Height of the word area; grows with Dynamic Type so large text never clips.
+    @ScaledMetric(relativeTo: .largeTitle) private var wordAreaHeight: CGFloat = 140
 
     @AppStorage(SettingsKey.font) private var fontRaw = ReaderFont.system.rawValue
     @AppStorage(SettingsKey.textSize) private var textSize = TextSizeSetting.defaultValue
     @AppStorage(SettingsKey.anchorColor) private var anchorColorRaw = AnchorColor.red.rawValue
 
     /// One motion curve for every state change, so all pieces move together.
-    private let stateAnimation = Animation.smooth(duration: 0.45)
+    private var stateAnimation: Animation {
+        reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.45)
+    }
 
     var body: some View {
         ZStack {
@@ -32,7 +38,7 @@ struct ReaderView<FinishedPanel: View>: View {
         .overlay(alignment: .top) {
             if !viewModel.isPlaying {
                 topBar
-                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .transition(reduceMotion ? .opacity : .move(edge: .top).combined(with: .opacity))
             }
         }
         .overlay(alignment: .bottom) {
@@ -63,7 +69,7 @@ struct ReaderView<FinishedPanel: View>: View {
                 anchorColor: (AnchorColor(rawValue: anchorColorRaw) ?? .red).color,
                 fontDesign: ReaderFont(rawValue: fontRaw) ?? .system
             )
-            .frame(height: 140)
+            .frame(height: wordAreaHeight * max(1, textSize))
             // Words must swap instantly, never cross-fade.
             .transaction { $0.animation = nil }
 
@@ -71,7 +77,8 @@ struct ReaderView<FinishedPanel: View>: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-                .frame(height: 44)
+                .padding(.horizontal, 24)
+                .frame(minHeight: 44)
                 .opacity(viewModel.isPlaying ? 0 : 1)
 
             Spacer(minLength: 0)
@@ -86,7 +93,8 @@ struct ReaderView<FinishedPanel: View>: View {
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(viewModel.title))
-        .accessibilityValue(Text(hint))
+        .accessibilityValue(accessibilityValue)
+        .accessibilityHint(Text("Double-tap to start or pause."))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { viewModel.togglePlayback() }
         .accessibilityAction(named: Text("Go back one sentence")) { viewModel.rewindSentence() }
@@ -98,6 +106,12 @@ struct ReaderView<FinishedPanel: View>: View {
         if dx > 60, abs(dx) > abs(dy) * 1.5 {
             viewModel.rewindSentence()
         }
+    }
+
+    /// When paused, VoiceOver also reads the current word.
+    private var accessibilityValue: Text {
+        guard !viewModel.isPlaying, let frame = viewModel.currentFrame else { return Text(hint) }
+        return Text(verbatim: frame.text + ". ") + Text(hint)
     }
 
     private var hint: LocalizedStringKey {
@@ -145,10 +159,10 @@ struct ReaderView<FinishedPanel: View>: View {
         VStack(spacing: 12) {
             if viewModel.state == .finished {
                 finishedPanel()
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
             } else if !viewModel.isPlaying {
                 ReaderControlsPanel(viewModel: viewModel)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
 
                 HStack {
                     Text("\(timeRemainingText) left")

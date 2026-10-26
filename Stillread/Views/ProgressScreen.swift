@@ -9,9 +9,13 @@ struct ProgressScreen: View {
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \ReadingSession.date, order: .reverse) private var sessions: [ReadingSession]
     @State private var hasAppeared = false
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         let summary = ProgressSummary(sessions: sessions)
+        let tileRow = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: 12))
+            : AnyLayout(HStackLayout(spacing: 12))
 
         NavigationStack {
             ScrollView {
@@ -23,7 +27,7 @@ struct ProgressScreen: View {
                         StreakCard(summary: summary)
                             .entrance(hasAppeared, delay: 0)
 
-                        HStack(spacing: 12) {
+                        tileRow {
                             StatTile(value: summary.textsFinished.formatted(), label: "Texts finished")
                             StatTile(value: summary.minutesRead.formatted(), label: "Minutes read")
                             StatTile(value: summary.wordsRead.formatted(.number.notation(.compactName)), label: "Words read")
@@ -67,6 +71,7 @@ struct ProgressScreen: View {
             Image(systemName: "chart.line.uptrend.xyaxis")
                 .font(.system(size: 40, weight: .light))
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
             Text("No reading yet")
                 .font(.title3.weight(.semibold))
             Text("Read a text for at least 20 seconds, or finish one, and your progress will show up here.")
@@ -244,6 +249,8 @@ private struct SpeedChartCard: View {
             )
             .foregroundStyle(by: .value("Series", name))
             .symbolSize(50)
+            .accessibilityLabel(Text("\(name), \(point.date, format: .dateTime.day().month(.wide))"))
+            .accessibilityValue(Text("\(Int(point.value.rounded())) wpm"))
             .annotation(position: .top, spacing: 4) {
                 // Direct label on the latest point only.
                 if point.id == values.last?.id {
@@ -287,6 +294,8 @@ private struct AccuracyChartCard: View {
                     .foregroundStyle(ChartPalette.series1)
                     .cornerRadius(4)
                     .opacity(isHighlighted(point.date) ? 1 : 0.35)
+                    .accessibilityLabel(Text(point.date, format: .dateTime.day().month(.wide)))
+                    .accessibilityValue(Text("\(Int(point.value.rounded()))% correct"))
                 }
 
                 if let selectedDay,

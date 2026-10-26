@@ -162,7 +162,16 @@ private struct OptionButton: View {
         }
         .buttonStyle(PressableCardStyle())
         .allowsHitTesting(state == .idle)
+        .accessibilityValue(accessibilityState)
         .accessibilityAddTraits(state == .correct ? .isSelected : [])
+    }
+
+    private var accessibilityState: Text {
+        switch state {
+        case .correct: Text("Correct answer")
+        case .wrong: Text("Your answer, incorrect")
+        case .idle, .dimmed: Text(verbatim: "")
+        }
     }
 
     private var background: Color {
@@ -191,6 +200,7 @@ private struct QuizSummaryView: View {
     let onReadAgain: () -> Void
 
     @State private var shownScore = 0
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         VStack(spacing: 28) {
@@ -206,7 +216,7 @@ private struct QuizSummaryView: View {
                     .foregroundStyle(.secondary)
             }
 
-            HStack(spacing: 12) {
+            tileLayout {
                 StatTile(value: viewModel.wordsPerMinute.formatted(), label: "Reading speed")
                 StatTile(value: viewModel.effectiveWordsPerMinute.formatted(), label: "Effective wpm")
             }
@@ -245,6 +255,12 @@ private struct QuizSummaryView: View {
                 shownScore = viewModel.correctCount
             }
         }
+    }
+
+    private var tileLayout: AnyLayout {
+        dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: 12))
+            : AnyLayout(HStackLayout(spacing: 12))
     }
 
     private var message: LocalizedStringKey {

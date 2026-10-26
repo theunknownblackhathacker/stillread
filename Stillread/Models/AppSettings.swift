@@ -14,6 +14,7 @@ enum SettingsKey {
     static let appearance = "app.appearance"
     static let language = "reading.language"
     static let level = "reading.level"
+    static let onboardingCompleted = "app.onboardingCompleted"
 }
 
 enum ReaderFont: String, CaseIterable, Identifiable, Sendable {

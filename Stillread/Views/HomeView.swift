@@ -9,6 +9,7 @@ import UIKit
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     /// Library texts (daily texts live in the Today section and the calendar).
     @Query(filter: #Predicate<ReadingText> { $0.dailyKey == nil }, sort: \ReadingText.createdAt, order: .reverse)
     private var texts: [ReadingText]
@@ -24,6 +25,8 @@ struct HomeView: View {
     @State private var refreshTick = 0
     @State private var isShowingSettings = false
     @State private var isShowingCalendar = false
+    @AppStorage(SettingsKey.onboardingCompleted) private var onboardingCompleted = false
+    @State private var isShowingOnboarding = false
 
     @State private var openReader: OpenReader?
     @State private var addRequest: AddRequest?
@@ -84,7 +87,11 @@ struct HomeView: View {
             ProgressScreen()
                 .navigationTransition(.zoom(sourceID: progressID, in: zoom))
         }
-        .sheet(isPresented: $isShowingSettings, onDismiss: presentPendingAddRequest) {
+        .sheet(isPresented: $isShowingSettings, onDismiss: {
+            // "Show introduction" in Settings resets the flag; show it once Settings has closed.
+            if !onboardingCompleted { isShowingOnboarding = true }
+            presentPendingAddRequest()
+        }) {
             SettingsView()
                 .navigationTransition(.zoom(sourceID: settingsID, in: zoom))
         }
@@ -95,6 +102,12 @@ struct HomeView: View {
             DailyCalendarView(texts: dailyTexts) { text in
                 textToOpen = text
                 isShowingCalendar = false
+            }
+        }
+        .fullScreenCover(isPresented: $isShowingOnboarding) {
+            OnboardingView {
+                onboardingCompleted = true
+                isShowingOnboarding = false
             }
         }
         .onOpenURL(perform: handleIncoming)
@@ -118,23 +131,34 @@ struct HomeView: View {
                 refreshTick += 1
             }
         }
-        .onAppear { hasAppeared = true }
+        .onAppear {
+            hasAppeared = true
+            if !onboardingCompleted { isShowingOnboarding = true }
+        }
     }
 
     // MARK: - Sections
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .top) {
+        // At accessibility text sizes the buttons move below the title.
+        let titleRow = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 16))
+            : AnyLayout(HStackLayout(alignment: .top))
+
+        return VStack(alignment: .leading, spacing: 16) {
+            titleRow {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Stillread")
                         .font(.largeTitle.weight(.bold))
+                        .accessibilityAddTraits(.isHeader)
                     Text("Read with a quiet mind.")
                         .font(.title3)
                         .foregroundStyle(.secondary)
                 }
 
-                Spacer()
+                if !dynamicTypeSize.isAccessibilitySize {
+                    Spacer()
+                }
 
                 HStack(spacing: 8) {
                     CircleIconButton(systemImage: "sparkles", accessibilityLabel: "Generate with AI") {
@@ -200,6 +224,7 @@ struct HomeView: View {
                 Text("Today")
                     .font(.headline)
                     .foregroundStyle(.secondary)
+                    .accessibilityAddTraits(.isHeader)
                 Spacer()
                 Button {
                     isShowingCalendar = true
@@ -240,6 +265,7 @@ struct HomeView: View {
             Text("Library")
                 .font(.headline)
                 .foregroundStyle(.secondary)
+                .accessibilityAddTraits(.isHeader)
 
             ForEach(texts) { text in
                 Button {
@@ -248,6 +274,7 @@ struct HomeView: View {
                     LibraryCard(text: text, wordsPerMinute: wordsPerMinute)
                 }
                 .buttonStyle(PressableCardStyle())
+                .accessibilityHint(Text("Opens the reader."))
                 .matchedTransitionSource(id: text.id, in: zoom)
                 .contextMenu {
                     if text.lastWordIndex > 0 {
@@ -274,6 +301,7 @@ struct HomeView: View {
             Image(systemName: "text.page")
                 .font(.system(size: 40, weight: .light))
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
 
             Text("Your library is empty")
                 .font(.title3.weight(.semibold))
@@ -372,6 +400,8 @@ private struct LibraryCard: View {
     /// Small line above the title, e.g. "Daily text · English · B1".
     var eyebrow: String?
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     private let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
 
     var body: some View {
@@ -400,7 +430,7 @@ private struct LibraryCard: View {
                     .transition(.opacity)
             }
 
-            HStack(alignment: .bottom) {
+            bottomRowLayout {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 4) {
                         Image(systemName: text.source.symbolName)
@@ -414,7 +444,9 @@ private struct LibraryCard: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 
-                Spacer(minLength: 12)
+                if !dynamicTypeSize.isAccessibilitySize {
+                    Spacer(minLength: 12)
+                }
 
                 Label(actionTitle, systemImage: text.isFinished ? "arrow.counterclockwise" : "play.fill")
                     .font(.subheadline.weight(.semibold))
@@ -430,6 +462,12 @@ private struct LibraryCard: View {
         .background(Color(.secondarySystemBackground), in: shape)
         .contentShape(shape)
         .animation(.smooth(duration: 0.45), value: text.lastWordIndex)
+    }
+
+    private var bottomRowLayout: AnyLayout {
+        dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12))
+            : AnyLayout(HStackLayout(alignment: .bottom))
     }
 
     private var actionTitle: LocalizedStringKey {

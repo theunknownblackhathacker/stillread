@@ -29,16 +29,22 @@ struct ReaderControlsPanel: View {
                 .accessibilityLabel(Text("Speed"))
                 .accessibilityValue(Text("\(viewModel.wordsPerMinute) words per minute"))
 
-            HStack(spacing: 8) {
-                ForEach(ReaderViewModel.speedPresets, id: \.self) { preset in
-                    PresetButton(value: preset, isSelected: preset == viewModel.wordsPerMinute) {
-                        viewModel.setWordsPerMinute(preset)
-                    }
-                }
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 8) { presetButtons }
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 96), spacing: 8)], spacing: 8) { presetButtons }
             }
         }
         .padding(20)
         .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+    }
+
+    @ViewBuilder
+    private var presetButtons: some View {
+        ForEach(ReaderViewModel.speedPresets, id: \.self) { preset in
+            PresetButton(value: preset, isSelected: preset == viewModel.wordsPerMinute) {
+                viewModel.setWordsPerMinute(preset)
+            }
+        }
     }
 
     private var speedLabel: LocalizedStringKey {
@@ -77,6 +83,8 @@ private struct PresetButton: View {
             Text(value, format: .number.grouping(.never))
                 .font(.subheadline.weight(.medium))
                 .monospacedDigit()
+                .lineLimit(1)
+                .fixedSize()
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
                 .background(Color.primary.opacity(isSelected ? 0.12 : 0), in: Capsule())

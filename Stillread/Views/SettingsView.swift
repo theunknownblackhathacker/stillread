@@ -16,6 +16,7 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.appearance) private var appearanceRaw = Appearance.system.rawValue
     @AppStorage(SettingsKey.language) private var languageRaw = ReadingLanguage.deviceDefault.rawValue
     @AppStorage(SettingsKey.level) private var levelRaw = ReadingLevel.b1.rawValue
+    @AppStorage(SettingsKey.onboardingCompleted) private var onboardingCompleted = true
 
     @State private var supportedLanguages: Set<ReadingLanguage> = []
 
@@ -208,6 +209,14 @@ struct SettingsView: View {
 
     private var aboutSection: some View {
         Section {
+            Button {
+                onboardingCompleted = false
+                dismiss()
+            } label: {
+                Label("Show introduction", systemImage: "sparkles.rectangle.stack")
+                    .foregroundStyle(.primary)
+            }
+
             HStack {
                 Text("Version")
                 Spacer()

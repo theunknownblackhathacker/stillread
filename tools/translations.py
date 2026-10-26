@@ -438,6 +438,58 @@ APP = {
     "reading": ("ανάγνωση", "leximi", "lectura", "чтение", "lettura"),
 }
 
+APP.update({
+    # Onboarding (M8)
+    "Words appear one at a time, right where your eyes already are. Just let them arrive.": (
+        "Οι λέξεις εμφανίζονται μία μία, εκεί που ήδη κοιτάζουν τα μάτια σου. Απλώς άφησέ τες να έρθουν.",
+        "Fjalët shfaqen një nga një, pikërisht aty ku janë sytë e tu. Thjesht lëri të vijnë.",
+        "Las palabras aparecen de una en una, justo donde ya están tus ojos. Solo déjalas llegar.",
+        "Слова появляются по одному, прямо там, куда вы уже смотрите. Просто позвольте им прийти.",
+        "Le parole appaiono una alla volta, proprio dove sono già i tuoi occhi. Lasciale semplicemente arrivare."),
+    "Skip": ("Παράλειψη", "Kapërce", "Omitir", "Пропустить", "Salta"),
+    "Start reading": ("Ξεκίνα να διαβάζεις", "Fillo të lexosh", "Empezar a leer", "Начать чтение", "Inizia a leggere"),
+    "Read one word at a time": ("Διάβασε μία λέξη τη φορά", "Lexo një fjalë në një kohë", "Lee una palabra cada vez", "Читайте по одному слову", "Leggi una parola alla volta"),
+    "Stillread shows each word in the same place, so your eyes can stay still and the words come to you. Tap to pause, swipe right to go back a sentence.": (
+        "Το Stillread δείχνει κάθε λέξη στο ίδιο σημείο, ώστε τα μάτια σου να μένουν ακίνητα και οι λέξεις να έρχονται σε σένα. Πάτησε για παύση, σύρε δεξιά για να γυρίσεις μία πρόταση πίσω.",
+        "Stillread e shfaq çdo fjalë në të njëjtin vend, që sytë e tu të qëndrojnë të qetë dhe fjalët të vijnë te ti. Prek për pauzë, rrëshqit djathtas për t'u kthyer një fjali mbrapa.",
+        "Stillread muestra cada palabra en el mismo lugar, para que tus ojos se queden quietos y las palabras vengan a ti. Toca para pausar y desliza a la derecha para volver una frase atrás.",
+        "Stillread показывает каждое слово в одном и том же месте, поэтому глаза остаются неподвижными, а слова приходят сами. Нажмите, чтобы поставить на паузу, смахните вправо, чтобы вернуться на предложение назад.",
+        "Stillread mostra ogni parola nello stesso punto, così i tuoi occhi restano fermi e le parole vengono da te. Tocca per mettere in pausa, scorri a destra per tornare indietro di una frase."),
+    "Keep your eyes on the red letter": ("Κράτα το βλέμμα στο κόκκινο γράμμα", "Mbaji sytë te shkronja e kuqe", "Mantén la vista en la letra roja", "Смотрите на красную букву", "Tieni gli occhi sulla lettera rossa"),
+    "The red letter marks the point where each word is easiest to recognise. Short pauses at commas and full stops give your mind time to keep up.": (
+        "Το κόκκινο γράμμα δείχνει το σημείο όπου κάθε λέξη αναγνωρίζεται πιο εύκολα. Μικρές παύσεις στα κόμματα και στις τελείες δίνουν χρόνο στο μυαλό σου να ακολουθήσει.",
+        "Shkronja e kuqe tregon pikën ku çdo fjalë njihet më lehtë. Pauzat e shkurtra te presjet dhe pikat i japin mendjes kohë të ndjekë ritmin.",
+        "La letra roja marca el punto donde cada palabra se reconoce con más facilidad. Las pausas breves en comas y puntos dan tiempo a tu mente para seguir el ritmo.",
+        "Красная буква отмечает точку, где слово узнаётся легче всего. Короткие паузы на запятых и точках дают уму время успевать.",
+        "La lettera rossa indica il punto in cui ogni parola si riconosce più facilmente. Brevi pause a virgole e punti danno alla mente il tempo di stare al passo."),
+    "recognise": ("αναγνώριση", "njohje", "reconocer", "узнавание", "riconoscere"),
+    "Quiet the inner voice": ("Ησύχασε την εσωτερική φωνή", "Qetëso zërin e brendshëm", "Calma la voz interior", "Приглушите внутренний голос", "Calma la voce interiore"),
+    "Most of us read by saying words in our head. At higher speeds that voice can't keep up, and it starts to fade. It never disappears completely, and that's fine. Short quizzes help you check that the meaning still arrives.": (
+        "Οι περισσότεροι διαβάζουμε λέγοντας τις λέξεις μέσα στο μυαλό μας. Σε μεγαλύτερες ταχύτητες αυτή η φωνή δεν προλαβαίνει και αρχίζει να σβήνει. Δεν εξαφανίζεται ποτέ εντελώς, και αυτό είναι εντάξει. Τα σύντομα κουίζ σε βοηθούν να ελέγχεις ότι το νόημα φτάνει.",
+        "Shumica prej nesh lexojmë duke i thënë fjalët në mendje. Me shpejtësi më të mëdha ai zë nuk arrin të ndjekë dhe fillon të zbehet. Nuk zhduket kurrë plotësisht, dhe kjo është në rregull. Kuizet e shkurtra të ndihmojnë të kontrollosh që kuptimi po arrin.",
+        "La mayoría leemos diciendo las palabras en la cabeza. A mayor velocidad esa voz no puede seguir el ritmo y empieza a apagarse. Nunca desaparece del todo, y está bien. Los cuestionarios breves te ayudan a comprobar que el sentido sigue llegando.",
+        "Большинство из нас читает, проговаривая слова про себя. На высокой скорости этот голос не успевает и начинает затихать. Полностью он не исчезает, и это нормально. Короткие тесты помогают проверить, что смысл по-прежнему доходит.",
+        "Quasi tutti leggiamo pronunciando le parole nella testa. A velocità più alte quella voce non riesce a stare al passo e inizia a svanire. Non scompare mai del tutto, e va bene così. Brevi quiz ti aiutano a verificare che il significato arrivi ancora."),
+    "Choose your starting speed": ("Διάλεξε την αρχική ταχύτητα", "Zgjidh shpejtësinë fillestare", "Elige tu velocidad inicial", "Выберите начальную скорость", "Scegli la velocità iniziale"),
+    "You can change it at any time, in the reader or in Settings.": (
+        "Μπορείς να την αλλάξεις όποτε θέλεις, στον αναγνώστη ή στις Ρυθμίσεις.",
+        "Mund ta ndryshosh kurdo, te lexuesi ose te Cilësimet.",
+        "Puedes cambiarla cuando quieras, en el lector o en Ajustes.",
+        "Её можно изменить в любой момент — в режиме чтения или в настройках.",
+        "Puoi cambiarla in qualsiasi momento, nel lettore o nelle Impostazioni."),
+    "Relaxed": ("Χαλαρή", "E qetë", "Relajada", "Спокойная", "Rilassata"),
+    "Comfortable": ("Άνετη", "E rehatshme", "Cómoda", "Комфортная", "Comoda"),
+    "Brisk": ("Γρήγορη", "E shpejtë", "Ágil", "Быстрая", "Svelta"),
+    "Page %lld of %lld": ("Σελίδα %lld από %lld", "Faqja %lld nga %lld", "Página %lld de %lld", "Страница %lld из %lld", "Pagina %lld di %lld"),
+    "Show introduction": ("Εμφάνιση εισαγωγής", "Shfaq hyrjen", "Ver introducción", "Показать введение", "Mostra introduzione"),
+    # Accessibility (M8)
+    "Double-tap to start or pause.": ("Πάτησε δύο φορές για έναρξη ή παύση.", "Prek dy herë për të nisur ose ndalur.", "Toca dos veces para empezar o pausar.", "Дважды коснитесь, чтобы начать или поставить на паузу.", "Tocca due volte per iniziare o mettere in pausa."),
+    "Opens the reader.": ("Ανοίγει τον αναγνώστη.", "Hap lexuesin.", "Abre el lector.", "Открывает чтение.", "Apre il lettore."),
+    "%lld%% correct": ("%lld%% σωστές", "%lld%% të sakta", "%lld%% correctas", "%lld%% верно", "%lld%% corrette"),
+    "Correct answer": ("Σωστή απάντηση", "Përgjigje e saktë", "Respuesta correcta", "Правильный ответ", "Risposta corretta"),
+    "Your answer, incorrect": ("Η απάντησή σου, λάθος", "Përgjigjja jote, e pasaktë", "Tu respuesta, incorrecta", "Ваш ответ, неверно", "La tua risposta, sbagliata"),
+})
+
 # Keys whose single %lld argument needs plural forms.
 # value: {lang: {category: text}}; "en" included for the source language.
 PLURALS = {
