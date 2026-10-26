@@ -1,6 +1,7 @@
 // Stillread/App/StillreadApp.swift
 
 import SwiftUI
+import SwiftData
 
 @main
 struct StillreadApp: App {
@@ -8,5 +9,6 @@ struct StillreadApp: App {
         WindowGroup {
             HomeView()
         }
+        .modelContainer(for: ReadingText.self)
     }
 }

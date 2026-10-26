@@ -39,7 +39,8 @@ final class ReaderViewModel {
         static let mode = "reader.mode"
     }
 
-    init(title: String, text: String) {
+    /// - Parameter startWord: where to resume. A value ≥ the word count means the text was finished.
+    init(title: String, text: String, startWord: Int = 0) {
         let defaults = UserDefaults.standard
         let words = Tokenizer.words(from: text)
         let savedSpeed = defaults.integer(forKey: Keys.wordsPerMinute)
@@ -54,6 +55,14 @@ final class ReaderViewModel {
         self.mode = mode
         self.plan = ReadingPlan(words: words, mode: mode, wordsPerMinute: speed)
         self.displayLink = DisplayLinkDriver()
+
+        if !words.isEmpty, startWord >= words.count {
+            currentFrameIndex = max(plan.frames.count - 1, 0)
+            state = .finished
+        } else if startWord > 0 {
+            currentFrameIndex = plan.frameIndex(containingWord: startWord)
+            state = .paused
+        }
     }
 
     // MARK: - Derived state
@@ -70,6 +79,11 @@ final class ReaderViewModel {
     }
 
     var isPlaying: Bool { state == .playing }
+
+    /// Position to store in the library. Equal to the word count once finished.
+    var savedWordIndex: Int {
+        state == .finished ? words.count : (currentFrame?.wordRange.lowerBound ?? 0)
+    }
 
     var hasStarted: Bool { currentFrameIndex > 0 || state != .ready }
 
