@@ -111,7 +111,7 @@ struct ReaderView<FinishedPanel: View>: View {
     /// When paused, VoiceOver also reads the current word.
     private var accessibilityValue: Text {
         guard !viewModel.isPlaying, let frame = viewModel.currentFrame else { return Text(hint) }
-        return Text(verbatim: frame.text + ". ") + Text(hint)
+        return Text("\(Text(verbatim: frame.text)). \(Text(hint))")
     }
 
     private var hint: LocalizedStringKey {
