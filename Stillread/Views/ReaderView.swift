@@ -15,6 +15,10 @@ struct ReaderView<FinishedPanel: View>: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
 
+    @AppStorage(SettingsKey.font) private var fontRaw = ReaderFont.system.rawValue
+    @AppStorage(SettingsKey.textSize) private var textSize = TextSizeSetting.defaultValue
+    @AppStorage(SettingsKey.anchorColor) private var anchorColorRaw = AnchorColor.red.rawValue
+
     /// One motion curve for every state change, so all pieces move together.
     private let stateAnimation = Animation.smooth(duration: 0.45)
 
@@ -55,7 +59,9 @@ struct ReaderView<FinishedPanel: View>: View {
 
             RSVPWordView(
                 parts: viewModel.currentParts,
-                fontScale: viewModel.mode == .chunk ? 0.8 : 1
+                fontScale: (viewModel.mode == .chunk ? 0.8 : 1) * textSize,
+                anchorColor: (AnchorColor(rawValue: anchorColorRaw) ?? .red).color,
+                fontDesign: ReaderFont(rawValue: fontRaw) ?? .system
             )
             .frame(height: 140)
             // Words must swap instantly, never cross-fade.

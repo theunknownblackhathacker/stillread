@@ -2,6 +2,7 @@
 
 import Foundation
 import Observation
+import UIKit
 
 @MainActor
 @Observable
@@ -35,14 +36,16 @@ final class ReaderViewModel {
     private(set) var wordsRead = 0
 
     @ObservationIgnored private var playStartedAt: ContinuousClock.Instant?
+    /// Light tap on every word when the haptic tick setting is on.
+    @ObservationIgnored private var tickGenerator: UIImpactFeedbackGenerator?
 
     @ObservationIgnored private let displayLink: DisplayLinkDriver
     /// Media time (CACurrentMediaTime base) at which the next frame should appear.
     @ObservationIgnored private var nextSwapTime: Double?
 
     private enum Keys {
-        static let wordsPerMinute = "reader.wordsPerMinute"
-        static let mode = "reader.mode"
+        static let wordsPerMinute = SettingsKey.wordsPerMinute
+        static let mode = SettingsKey.mode
     }
 
     /// - Parameter startWord: where to resume. A value ≥ the word count means the text was finished.
@@ -153,6 +156,13 @@ final class ReaderViewModel {
         guard !plan.frames.isEmpty, state != .playing else { return }
         state = .playing
         playStartedAt = ContinuousClock.now
+        if UserDefaults.standard.bool(forKey: SettingsKey.hapticTick) {
+            let generator = UIImpactFeedbackGenerator(style: .light)
+            generator.prepare()
+            tickGenerator = generator
+        } else {
+            tickGenerator = nil
+        }
         startTicking(leadIn: Self.leadInSeconds)
     }
 
@@ -239,6 +249,7 @@ final class ReaderViewModel {
         }
 
         currentFrameIndex += 1
+        tickGenerator?.impactOccurred(intensity: 0.55)
         let duration = plan.frames[currentFrameIndex].durationMilliseconds / 1000
         // After a long hitch (more than a whole frame late), resync instead of racing ahead.
         nextSwapTime = target - deadline > duration ? target + duration : deadline + duration

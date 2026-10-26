@@ -2,31 +2,26 @@
 
 import Foundation
 
-/// Text languages from spec §8. Names are shown in their own language.
+/// Languages for the interface and texts (spec §8, as changed by Kevin in M7).
+/// Names are shown in their own language.
 enum ReadingLanguage: String, CaseIterable, Identifiable, Codable, Sendable {
     case english = "en"
-    case ukrainian = "uk"
-    case german = "de"
-    case french = "fr"
+    case greek = "el"
+    case albanian = "sq"
     case spanish = "es"
-    case portuguese = "pt"
+    case russian = "ru"
     case italian = "it"
-    case polish = "pl"
-    case turkish = "tr"
 
     var id: Self { self }
 
     var nativeName: String {
         switch self {
         case .english: "English"
-        case .ukrainian: "Українська"
-        case .german: "Deutsch"
-        case .french: "Français"
+        case .greek: "Ελληνικά"
+        case .albanian: "Shqip"
         case .spanish: "Español"
-        case .portuguese: "Português"
+        case .russian: "Русский"
         case .italian: "Italiano"
-        case .polish: "Polski"
-        case .turkish: "Türkçe"
         }
     }
 
@@ -137,9 +132,45 @@ enum SurpriseTopics {
         "the journey of a single raindrop",
         "how elephants remember",
         "the art of Japanese gardens",
+        "how lighthouses got their lenses",
+        "the life of a honeybee in one summer",
+        "why the moon looks bigger near the horizon",
+        "how ancient Greeks built their theatres",
+        "the story of olive oil",
+        "how whales sing to each other",
+        "the first people to cross the Alps",
+        "why bread rises",
+        "how snowflakes form",
+        "the history of the alphabet",
+        "a day in the life of a mountain village",
+        "how trees prepare for winter",
+        "the invention of the telescope",
+        "why some places echo",
+        "how ants build cities underground",
+        "the story of the Silk Road",
+        "how glass is made",
+        "why we feel calm near water",
+        "the journey of a letter in the 1800s",
+        "how sea turtles return to the same beach",
+        "the history of chess",
+        "how rivers shape valleys",
+        "why leaves change colour in autumn",
+        "the first marathon",
+        "how a violin is made",
+        "the science of laughter",
+        "how night-time animals see in the dark",
+        "the history of the umbrella",
+        "how clouds get their shapes",
+        "a quiet morning in an old bookshop",
     ]
 
     static func random() -> String {
         all.randomElement() ?? "the ocean"
+    }
+
+    /// A fixed topic per calendar day, so the daily text changes every day.
+    static func topic(for date: Date, calendar: Calendar = .current) -> String {
+        let day = calendar.ordinality(of: .day, in: .era, for: date) ?? 0
+        return all[day % all.count]
     }
 }

@@ -8,9 +8,22 @@ import UIKit
 /// system zoom transition, which is interactive and runs at 120 Hz.
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \ReadingText.createdAt, order: .reverse) private var texts: [ReadingText]
+    @Environment(\.scenePhase) private var scenePhase
+    /// Library texts (daily texts live in the Today section and the calendar).
+    @Query(filter: #Predicate<ReadingText> { $0.dailyKey == nil }, sort: \ReadingText.createdAt, order: .reverse)
+    private var texts: [ReadingText]
+    @Query(filter: #Predicate<ReadingText> { $0.dailyKey != nil }, sort: \ReadingText.createdAt, order: .reverse)
+    private var dailyTexts: [ReadingText]
     @Query private var sessions: [ReadingSession]
-    @AppStorage("reader.wordsPerMinute") private var wordsPerMinute = 350
+    @AppStorage(SettingsKey.wordsPerMinute) private var wordsPerMinute = ReaderDefaults.wordsPerMinute
+    @AppStorage(SettingsKey.language) private var languageRaw = ReadingLanguage.deviceDefault.rawValue
+    @AppStorage(SettingsKey.level) private var levelRaw = ReadingLevel.b1.rawValue
+
+    @State private var daily = DailyTextViewModel()
+    @State private var now = Date.now
+    @State private var refreshTick = 0
+    @State private var isShowingSettings = false
+    @State private var isShowingCalendar = false
 
     @State private var openReader: OpenReader?
     @State private var addRequest: AddRequest?
@@ -25,12 +38,16 @@ struct HomeView: View {
 
     private let listAnimation = Animation.smooth(duration: 0.45)
     private let progressID = "progress"
+    private let settingsID = "settings"
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 32) {
                 header
                     .entrance(hasAppeared, delay: 0)
+
+                todaySection
+                    .entrance(hasAppeared, delay: 0.08)
 
                 Group {
                     if texts.isEmpty {
@@ -40,7 +57,7 @@ struct HomeView: View {
                         library
                     }
                 }
-                .entrance(hasAppeared, delay: 0.1)
+                .entrance(hasAppeared, delay: 0.16)
             }
             .padding(.horizontal, 20)
             .padding(.top, 32)
@@ -67,9 +84,39 @@ struct HomeView: View {
             ProgressScreen()
                 .navigationTransition(.zoom(sourceID: progressID, in: zoom))
         }
+        .sheet(isPresented: $isShowingSettings, onDismiss: presentPendingAddRequest) {
+            SettingsView()
+                .navigationTransition(.zoom(sourceID: settingsID, in: zoom))
+        }
+        .sheet(isPresented: $isShowingCalendar, onDismiss: {
+            openPendingText()
+            presentPendingAddRequest()
+        }) {
+            DailyCalendarView(texts: dailyTexts) { text in
+                textToOpen = text
+                isShowingCalendar = false
+            }
+        }
         .onOpenURL(perform: handleIncoming)
         .task {
             LibrarySeeder.seedIfNeeded(in: modelContext)
+        }
+        // Writes today's text if it's missing (new day, or language/level changed in Settings).
+        .task(id: "\(todayKey)#\(refreshTick)") {
+            daily.ensureToday(
+                key: todayKey,
+                date: now,
+                language: language,
+                level: level,
+                exists: todayText != nil,
+                context: modelContext
+            )
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                now = .now
+                refreshTick += 1
+            }
         }
         .onAppear { hasAppeared = true }
     }
@@ -89,13 +136,17 @@ struct HomeView: View {
 
                 Spacer()
 
-                HStack(spacing: 10) {
-                    CircleIconButton(systemImage: "sparkles", accessibilityLabel: "Generate with AI", size: 48) {
+                HStack(spacing: 8) {
+                    CircleIconButton(systemImage: "sparkles", accessibilityLabel: "Generate with AI") {
                         isGenerating = true
                     }
-                    CircleIconButton(systemImage: "plus", accessibilityLabel: "Add text", size: 48) {
+                    CircleIconButton(systemImage: "plus", accessibilityLabel: "Add text") {
                         addRequest = AddRequest(viewModel: AddTextViewModel())
                     }
+                    CircleIconButton(systemImage: "gearshape", accessibilityLabel: "Settings") {
+                        isShowingSettings = true
+                    }
+                    .matchedTransitionSource(id: settingsID, in: zoom)
                 }
             }
 
@@ -134,6 +185,54 @@ struct HomeView: View {
 
     private func streakTitle(_ streak: Int) -> LocalizedStringKey {
         streak > 0 ? "\(streak)-day streak" : "Start a streak today"
+    }
+
+    // MARK: - Today (spec §5)
+
+    private var language: ReadingLanguage { ReadingLanguage(rawValue: languageRaw) ?? .deviceDefault }
+    private var level: ReadingLevel { ReadingLevel(rawValue: levelRaw) ?? .b1 }
+    private var todayKey: String { DailyText.key(for: now, language: language, level: level) }
+    private var todayText: ReadingText? { dailyTexts.first { $0.dailyKey == todayKey } }
+
+    private var todaySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Today")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Button {
+                    isShowingCalendar = true
+                } label: {
+                    Label("Calendar", systemImage: "calendar")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
+
+            if let today = todayText {
+                Button {
+                    open(today)
+                } label: {
+                    LibraryCard(text: today, wordsPerMinute: wordsPerMinute, eyebrow: dailyEyebrow)
+                }
+                .buttonStyle(PressableCardStyle())
+                .matchedTransitionSource(id: today.id, in: zoom)
+                .transition(.opacity.combined(with: .scale(scale: 0.97)))
+            } else {
+                DailyStatusCard(model: daily) {
+                    daily.retry(key: todayKey, date: now, language: language, level: level, context: modelContext)
+                }
+                .transition(.opacity)
+            }
+        }
+        .animation(listAnimation, value: todayText?.id)
+        .animation(listAnimation, value: daily.status)
+    }
+
+    private var dailyEyebrow: String {
+        [String(localized: "Daily text"), language.nativeName, level.rawValue].joined(separator: " · ")
     }
 
     private var library: some View {
@@ -218,13 +317,16 @@ struct HomeView: View {
             }
         }
 
-        let somethingIsOpen = openReader != nil || addRequest != nil || isGenerating || isShowingProgress
+        let somethingIsOpen = openReader != nil || addRequest != nil || isGenerating
+            || isShowingProgress || isShowingSettings || isShowingCalendar
         if somethingIsOpen {
             pendingAddRequest = request
             openReader = nil
             addRequest = nil
             isGenerating = false
             isShowingProgress = false
+            isShowingSettings = false
+            isShowingCalendar = false
         } else {
             addRequest = request
         }
@@ -267,11 +369,20 @@ private struct OpenReader: Identifiable {
 private struct LibraryCard: View {
     let text: ReadingText
     let wordsPerMinute: Int
+    /// Small line above the title, e.g. "Daily text · English · B1".
+    var eyebrow: String?
 
     private let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            if let eyebrow {
+                Text(eyebrow)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.orange)
+                    .textCase(.uppercase)
+            }
+
             Text(text.title)
                 .font(.title3.weight(.semibold))
                 .foregroundStyle(.primary)
@@ -325,6 +436,67 @@ private struct LibraryCard: View {
         if text.isFinished { return "Read again" }
         if text.isInProgress { return "Continue" }
         return "Read"
+    }
+}
+
+// MARK: - Daily status (writing / unavailable / failed)
+
+private struct DailyStatusCard: View {
+    let model: DailyTextViewModel
+    let retry: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            switch model.status {
+            case .idle, .writing:
+                HStack(spacing: 10) {
+                    ProgressView()
+                    Text("Writing today's text…")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.secondary)
+                }
+
+                if !model.streamedTitle.isEmpty {
+                    Text(model.streamedTitle)
+                        .font(.title3.weight(.semibold))
+                        .transition(.opacity)
+                }
+
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach([1.0, 0.92, 0.6], id: \.self) { width in
+                        Capsule()
+                            .fill(Color.primary.opacity(0.08))
+                            .frame(height: 10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .scaleEffect(x: width, anchor: .leading)
+                    }
+                }
+                .phaseAnimator([0.45, 1.0]) { content, phase in
+                    content.opacity(phase)
+                } animation: { _ in
+                    .easeInOut(duration: 0.9)
+                }
+
+            case .unavailable:
+                Label {
+                    Text(model.message ?? "Daily texts need Apple Intelligence.")
+                        .foregroundStyle(.primary)
+                } icon: {
+                    Image(systemName: "sparkles")
+                        .foregroundStyle(.secondary)
+                }
+                .font(.subheadline)
+
+            case .failed:
+                Text(model.message ?? "Today's text couldn't be written.")
+                    .font(.subheadline)
+                SecondaryActionButton(title: "Try again", systemImage: "arrow.clockwise", action: retry)
+            }
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .animation(.smooth(duration: 0.4), value: model.streamedTitle)
     }
 }
 

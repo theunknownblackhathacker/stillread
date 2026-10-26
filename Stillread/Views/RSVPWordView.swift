@@ -10,6 +10,7 @@ struct RSVPWordView: View {
     let parts: ORPParts
     var fontScale: CGFloat = 1
     var anchorColor: Color = .red
+    var fontDesign: ReaderFont = .system
 
     @ScaledMetric(relativeTo: .largeTitle) private var scaledFontSize: CGFloat = 46
 
@@ -43,7 +44,7 @@ struct RSVPWordView: View {
                         .fixedSize()
                         .frame(width: sideWidth, alignment: .leading)
                 }
-                .font(.system(size: fontSize, weight: fontWeight))
+                .font(.system(size: fontSize, weight: fontWeight, design: fontDesign.design))
                 .foregroundStyle(.primary)
             }
             .frame(width: width, height: proxy.size.height)
@@ -67,7 +68,10 @@ struct RSVPWordView: View {
 
     private func measure(_ text: String, size: CGFloat) -> CGFloat {
         guard !text.isEmpty else { return 0 }
-        let font = UIFont.systemFont(ofSize: size, weight: uiWeight)
+        let base = UIFont.systemFont(ofSize: size, weight: uiWeight)
+        // Measure with the same design SwiftUI renders, so the anchor stays exactly centred.
+        let font = base.fontDescriptor.withDesign(fontDesign.uiDesign)
+            .map { UIFont(descriptor: $0, size: size) } ?? base
         return ceil((text as NSString).size(withAttributes: [.font: font]).width)
     }
 }

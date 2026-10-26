@@ -21,6 +21,8 @@ final class ReadingText {
     var wordCount: Int
     @Relationship(deleteRule: .cascade, inverse: \QuizQuestion.text)
     var questions: [QuizQuestion] = []
+    /// Set for daily texts: "yyyy-MM-dd|language|level" (spec §5). Nil for library texts.
+    var dailyKey: String?
 
     init(
         id: UUID = UUID(),
