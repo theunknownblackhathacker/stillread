@@ -3,8 +3,13 @@
 import SwiftUI
 
 struct ReaderView: View {
-    @State private var viewModel = ReaderViewModel(text: SampleText.body)
+    let viewModel: ReaderViewModel
+
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
+
+    /// One motion curve for every state change, so all pieces move together.
+    private let stateAnimation = Animation.smooth(duration: 0.45)
 
     var body: some View {
         ZStack {
@@ -13,13 +18,20 @@ struct ReaderView: View {
 
             readingSurface
         }
+        .overlay(alignment: .top) {
+            if !viewModel.isPlaying {
+                topBar
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
         .overlay(alignment: .bottom) {
             bottomArea
         }
         .statusBarHidden(viewModel.isPlaying)
         .persistentSystemOverlays(viewModel.isPlaying ? .hidden : .automatic)
-        .animation(.easeInOut(duration: 0.25), value: viewModel.state)
+        .animation(stateAnimation, value: viewModel.state)
         .sensoryFeedback(.impact(weight: .light), trigger: viewModel.rewindCount)
+        .interactiveDismissDisabled(viewModel.isPlaying)
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { viewModel.pause() }
         }
@@ -39,6 +51,8 @@ struct ReaderView: View {
                 fontScale: viewModel.mode == .chunk ? 0.8 : 1
             )
             .frame(height: 140)
+            // Words must swap instantly, never cross-fade.
+            .transaction { $0.animation = nil }
 
             Text(hint)
                 .font(.footnote)
@@ -58,7 +72,7 @@ struct ReaderView: View {
                 .onEnded(handleSwipe)
         )
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(SampleText.title))
+        .accessibilityLabel(Text(viewModel.title))
         .accessibilityValue(Text(hint))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { viewModel.togglePlayback() }
@@ -82,6 +96,36 @@ struct ReaderView: View {
         }
     }
 
+    // MARK: - Top bar (close + title, hidden while playing)
+
+    private var topBar: some View {
+        ZStack {
+            Text(viewModel.title)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .padding(.horizontal, 64)
+
+            HStack {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.primary)
+                        .frame(width: 44, height: 44)
+                        .background(Color(.secondarySystemBackground), in: Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text("Close"))
+
+                Spacer()
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 4)
+    }
+
     // MARK: - Bottom area (controls when paused, progress always)
 
     private var bottomArea: some View {
@@ -93,6 +137,7 @@ struct ReaderView: View {
                 HStack {
                     Text("\(timeRemainingText) left")
                         .monospacedDigit()
+                        .contentTransition(.numericText(countsDown: true))
 
                     Spacer()
 
@@ -103,6 +148,7 @@ struct ReaderView: View {
                             Label("Start over", systemImage: "arrow.counterclockwise")
                         }
                         .buttonStyle(.plain)
+                        .transition(.opacity)
                     }
                 }
                 .font(.footnote)
@@ -111,13 +157,20 @@ struct ReaderView: View {
                 .transition(.opacity)
             }
 
-            ProgressView(value: viewModel.progress)
-                .progressViewStyle(.linear)
-                .tint(.secondary)
+            // While playing, the bar glides to the end of the current word over exactly
+            // that word's duration, so it moves continuously instead of in steps.
+            ReadingProgressBar(value: viewModel.displayProgress)
                 .padding(.horizontal, 8)
+                .animation(progressAnimation, value: viewModel.displayProgress)
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 12)
+    }
+
+    private var progressAnimation: Animation {
+        viewModel.isPlaying
+            ? .linear(duration: viewModel.currentFrameSeconds)
+            : stateAnimation
     }
 
     private var timeRemainingText: String {
@@ -127,5 +180,5 @@ struct ReaderView: View {
 }
 
 #Preview {
-    ReaderView()
+    ReaderView(viewModel: ReaderViewModel(title: SampleText.title, text: SampleText.body))
 }

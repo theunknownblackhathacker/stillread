@@ -6,7 +6,7 @@ import SwiftUI
 struct StillreadApp: App {
     var body: some Scene {
         WindowGroup {
-            ReaderView()
+            HomeView()
         }
     }
 }

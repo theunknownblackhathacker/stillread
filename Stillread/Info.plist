@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Stillread/Info.plist — only keys that have no build-setting equivalent. -->
+<plist version="1.0">
+<dict>
+	<!-- Lets animations and the reader run at up to 120 Hz on ProMotion iPhones.
+	     Without it, iPhone apps are capped at 60 Hz for custom animations. -->
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+</dict>
+</plist>

@@ -10,8 +10,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "6.0"
-    MARKETING_VERSION: "0.2.0"
-    CURRENT_PROJECT_VERSION: "2"
+    MARKETING_VERSION: "0.2.1"
+    CURRENT_PROJECT_VERSION: "3"
 
 targets:
   Stillread:
@@ -19,10 +19,14 @@ targets:
     platform: iOS
     sources:
       - path: Stillread
+        excludes:
+          - Info.plist
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.kevin.stillread
         TARGETED_DEVICE_FAMILY: "1"
+        # Extra keys (120 Hz) live in Info.plist; Xcode merges the generated keys into it.
+        INFOPLIST_FILE: Stillread/Info.plist
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Stillread
         INFOPLIST_KEY_UILaunchScreen_Generation: YES

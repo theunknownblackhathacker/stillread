@@ -58,6 +58,13 @@ struct ReadingPlan: Sendable {
         remaining[min(max(index, 0), frames.count)]
     }
 
+    /// Share of total reading time that has passed when frame `index` starts (0...1).
+    func elapsedFraction(beforeFrame index: Int) -> Double {
+        let total = remaining[0]
+        guard total > 0 else { return 0 }
+        return 1 - remainingMilliseconds(fromFrame: index) / total
+    }
+
     /// Index of the frame that shows the given word.
     func frameIndex(containingWord word: Int) -> Int {
         guard !frames.isEmpty else { return 0 }
