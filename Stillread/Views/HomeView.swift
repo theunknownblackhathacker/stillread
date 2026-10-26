@@ -12,6 +12,9 @@ struct HomeView: View {
 
     @State private var openReader: OpenReader?
     @State private var isAddingText = false
+    @State private var isGenerating = false
+    /// Set by the generator's "Read now"; opened once the sheet has finished closing.
+    @State private var textToOpen: ReadingText?
     @State private var hasAppeared = false
     @Namespace private var zoom
 
@@ -46,6 +49,11 @@ struct HomeView: View {
         .sheet(isPresented: $isAddingText) {
             AddTextView()
         }
+        .sheet(isPresented: $isGenerating, onDismiss: openPendingText) {
+            GenerateTextView { text in
+                textToOpen = text
+            }
+        }
         .task {
             LibrarySeeder.seedIfNeeded(in: modelContext)
         }
@@ -66,17 +74,14 @@ struct HomeView: View {
 
             Spacer()
 
-            Button {
-                isAddingText = true
-            } label: {
-                Image(systemName: "plus")
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(.primary)
-                    .frame(width: 48, height: 48)
-                    .background(Color(.secondarySystemBackground), in: Circle())
+            HStack(spacing: 10) {
+                CircleIconButton(systemImage: "sparkles", accessibilityLabel: "Generate with AI", size: 48) {
+                    isGenerating = true
+                }
+                CircleIconButton(systemImage: "plus", accessibilityLabel: "Add text", size: 48) {
+                    isAddingText = true
+                }
             }
-            .buttonStyle(PressableCardStyle())
-            .accessibilityLabel(Text("Add text"))
         }
     }
 
@@ -123,26 +128,29 @@ struct HomeView: View {
             Text("Your library is empty")
                 .font(.title3.weight(.semibold))
 
-            Text("Paste an article, a chapter or any text you want to read faster.")
+            Text("Generate a text with AI, or paste an article or chapter you want to read faster.")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
-            Button {
-                isAddingText = true
-            } label: {
-                Label("Add text", systemImage: "plus")
-                    .font(.headline)
-                    .foregroundStyle(Color(.systemBackground))
-                    .padding(.horizontal, 22)
-                    .padding(.vertical, 12)
-                    .background(Color.primary, in: Capsule())
+            VStack(spacing: 12) {
+                PrimaryActionButton(title: "Generate with AI", systemImage: "sparkles") {
+                    isGenerating = true
+                }
+                SecondaryActionButton(title: "Paste a text", systemImage: "doc.on.clipboard") {
+                    isAddingText = true
+                }
             }
-            .buttonStyle(PressableCardStyle())
             .padding(.top, 4)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 48)
+    }
+
+    private func openPendingText() {
+        guard let text = textToOpen else { return }
+        textToOpen = nil
+        open(text)
     }
 
     private func open(_ text: ReadingText) {

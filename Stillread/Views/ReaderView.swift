@@ -2,8 +2,15 @@
 
 import SwiftUI
 
-struct ReaderView: View {
+struct ReaderView<FinishedPanel: View>: View {
     let viewModel: ReaderViewModel
+    /// Shown at the bottom once the text is finished (quiz, read again, close).
+    @ViewBuilder let finishedPanel: () -> FinishedPanel
+
+    init(viewModel: ReaderViewModel, @ViewBuilder finishedPanel: @escaping () -> FinishedPanel) {
+        self.viewModel = viewModel
+        self.finishedPanel = finishedPanel
+    }
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
@@ -130,7 +137,10 @@ struct ReaderView: View {
 
     private var bottomArea: some View {
         VStack(spacing: 12) {
-            if !viewModel.isPlaying {
+            if viewModel.state == .finished {
+                finishedPanel()
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            } else if !viewModel.isPlaying {
                 ReaderControlsPanel(viewModel: viewModel)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
 
@@ -180,5 +190,7 @@ struct ReaderView: View {
 }
 
 #Preview {
-    ReaderView(viewModel: ReaderViewModel(title: SampleText.title, text: SampleText.body))
+    ReaderView(viewModel: ReaderViewModel(title: SampleText.title, text: SampleText.body)) {
+        Text("Finished")
+    }
 }

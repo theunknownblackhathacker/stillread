@@ -19,6 +19,8 @@ final class ReadingText {
     /// First word of the frame to resume from. Equal to `wordCount` when finished.
     var lastWordIndex: Int
     var wordCount: Int
+    @Relationship(deleteRule: .cascade, inverse: \QuizQuestion.text)
+    var questions: [QuizQuestion] = []
 
     init(
         id: UUID = UUID(),
@@ -42,6 +44,10 @@ final class ReadingText {
 
     var source: TextSource {
         TextSource(rawValue: sourceRaw) ?? .paste
+    }
+
+    var sortedQuestions: [QuizQuestion] {
+        questions.sorted { $0.order < $1.order }
     }
 
     var isFinished: Bool {

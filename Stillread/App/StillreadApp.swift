@@ -5,10 +5,12 @@ import SwiftData
 
 @main
 struct StillreadApp: App {
+    private let container = ModelContainerFactory.make()
+
     var body: some Scene {
         WindowGroup {
             HomeView()
         }
-        .modelContainer(for: ReadingText.self)
+        .modelContainer(container)
     }
 }
