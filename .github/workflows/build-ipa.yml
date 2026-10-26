@@ -42,10 +42,22 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             build 2>&1 | tee build.log
 
+      - name: Export localizable strings
+        continue-on-error: true
+        run: |
+          xcodebuild -exportLocalizations \
+            -project Stillread.xcodeproj \
+            -localizationPath loc \
+            -exportLanguage en \
+            -sdk iphoneos \
+            CODE_SIGNING_ALLOWED=NO > export.log 2>&1 || tail -n 40 export.log
+
       - name: Publish build log to build-logs branch
         if: always()
         run: |
           mkdir logs
+          find loc -name "*.xliff" -exec cp {} logs/ \; 2>/dev/null || true
+          [ -f export.log ] && tail -n 40 export.log > logs/export-tail.txt || true
           {
             echo "Commit: $GITHUB_SHA"
             echo "Result: ${{ job.status }}"
@@ -63,7 +75,7 @@ jobs:
           git init -q -b build-logs
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add build-summary.txt
+          git add .
           git commit -q -m "Build log for $GITHUB_SHA"
           git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" build-logs
 
