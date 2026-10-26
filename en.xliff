@@ -1,0 +1,1136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="Stillread/InfoPlist.xcstrings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.6" build-num="17F113"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName" xml:space="preserve">
+        <source>Stillread</source>
+        <target state="new">Stillread</target>
+        <note>Bundle display name</note>
+      </trans-unit>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>Stillread</source>
+        <target state="new">Stillread</target>
+        <note>Bundle name</note>
+      </trans-unit>
+      <trans-unit id="NSCameraUsageDescription" xml:space="preserve">
+        <source>Stillread uses the camera to scan printed pages into text you can read.</source>
+        <target state="new">Stillread uses the camera to scan printed pages into text you can read.</target>
+        <note>Privacy - Camera Usage Description</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Stillread/Localizable.xcstrings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.6" build-num="17F113"/>
+    </header>
+    <body>
+      <trans-unit id="" xml:space="preserve">
+        <source/>
+        <target state="new"/>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%@ (not on device)" xml:space="preserve">
+        <source>%@ (not on device)</source>
+        <target state="new">%@ (not on device)</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%@ left" xml:space="preserve">
+        <source>%@ left</source>
+        <target state="new">%@ left</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%@ · %@" xml:space="preserve">
+        <source>%1$@ · %2$@</source>
+        <target state="new">%1$@ · %2$@</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%@, %@" xml:space="preserve">
+        <source>%1$@, %2$@</source>
+        <target state="new">%1$@, %2$@</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%@. %@" xml:space="preserve">
+        <source>%1$@. %2$@</source>
+        <target state="new">%1$@. %2$@</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld / %lld" xml:space="preserve">
+        <source>%1$lld / %2$lld</source>
+        <target state="new">%1$lld / %2$lld</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld days|==|plural.one" xml:space="preserve">
+        <source>%lld day</source>
+        <target state="translated">%lld day</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld days|==|plural.other" xml:space="preserve">
+        <source>%lld days</source>
+        <target state="translated">%lld days</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld questions to check what stayed with you.|==|plural.one" xml:space="preserve">
+        <source>%lld question to check what stayed with you.</source>
+        <target state="translated">%lld question to check what stayed with you.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld questions to check what stayed with you.|==|plural.other" xml:space="preserve">
+        <source>%lld questions to check what stayed with you.</source>
+        <target state="translated">%lld questions to check what stayed with you.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld words per minute" xml:space="preserve">
+        <source>%lld words per minute</source>
+        <target state="new">%lld words per minute</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld words · %@ · %lld wpm" xml:space="preserve">
+        <source>%lld words · %@ · %lld wpm</source>
+        <target state="new">%lld words · %@ · %lld wpm</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld words · ~%lld min" xml:space="preserve">
+        <source>%lld words · ~%lld min</source>
+        <target state="new">%lld words · ~%lld min</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld words|==|plural.one" xml:space="preserve">
+        <source>%lld word</source>
+        <target state="translated">%lld word</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld words|==|plural.other" xml:space="preserve">
+        <source>%lld words</source>
+        <target state="translated">%lld words</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld wpm" xml:space="preserve">
+        <source>%lld wpm</source>
+        <target state="new">%lld wpm</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld → %lld wpm" xml:space="preserve">
+        <source>%lld → %lld wpm</source>
+        <target state="new">%lld → %lld wpm</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld%%" xml:space="preserve">
+        <source>%lld%%</source>
+        <target state="new">%lld%%</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld%% correct" xml:space="preserve">
+        <source>%lld%% correct</source>
+        <target state="new">%lld%% correct</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld-day streak|==|plural.one" xml:space="preserve">
+        <source>%lld-day streak</source>
+        <target state="translated">%lld-day streak</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld-day streak|==|plural.other" xml:space="preserve">
+        <source>%lld-day streak</source>
+        <target state="translated">%lld-day streak</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld/%lld correct" xml:space="preserve">
+        <source>%lld/%lld correct</source>
+        <target state="new">%lld/%lld correct</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="A light tap on every word." xml:space="preserve">
+        <source>A light tap on every word.</source>
+        <target state="new">A light tap on every word.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="AI" xml:space="preserve">
+        <source>AI</source>
+        <target state="new">AI</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="About %lld words · %lld quiz questions" xml:space="preserve">
+        <source>About %lld words · %lld quiz questions</source>
+        <target state="new">About %lld words · %lld quiz questions</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Accuracy" xml:space="preserve">
+        <source>Accuracy</source>
+        <target state="new">Accuracy</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Add text" xml:space="preserve">
+        <source>Add text</source>
+        <target state="new">Add text</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Add your own text" xml:space="preserve">
+        <source>Add your own text</source>
+        <target state="new">Add your own text</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Anchor colour" xml:space="preserve">
+        <source>Anchor colour</source>
+        <target state="new">Anchor colour</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="App language" xml:space="preserve">
+        <source>App language</source>
+        <target state="new">App language</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Appearance" xml:space="preserve">
+        <source>Appearance</source>
+        <target state="new">Appearance</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Apple Intelligence can write a few questions about this text." xml:space="preserve">
+        <source>Apple Intelligence can write a few questions about this text.</source>
+        <target state="new">Apple Intelligence can write a few questions about this text.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Apple Intelligence declined this topic. Try a different one." xml:space="preserve">
+        <source>Apple Intelligence declined this topic. Try a different one.</source>
+        <target state="new">Apple Intelligence declined this topic. Try a different one.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Apple Intelligence is ready." xml:space="preserve">
+        <source>Apple Intelligence is ready.</source>
+        <target state="new">Apple Intelligence is ready.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Apple Intelligence is still downloading. Keep your iPhone on Wi-Fi and charging, then try again." xml:space="preserve">
+        <source>Apple Intelligence is still downloading. Keep your iPhone on Wi-Fi and charging, then try again.</source>
+        <target state="new">Apple Intelligence is still downloading. Keep your iPhone on Wi-Fi and charging, then try again.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Apple Intelligence is still getting ready. Try again in a moment." xml:space="preserve">
+        <source>Apple Intelligence is still getting ready. Try again in a moment.</source>
+        <target state="new">Apple Intelligence is still getting ready. Try again in a moment.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Apple Intelligence isn't available right now." xml:space="preserve">
+        <source>Apple Intelligence isn't available right now.</source>
+        <target state="new">Apple Intelligence isn't available right now.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Best" xml:space="preserve">
+        <source>Best</source>
+        <target state="new">Best</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Best effective" xml:space="preserve">
+        <source>Best effective</source>
+        <target state="new">Best effective</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Blue" xml:space="preserve">
+        <source>Blue</source>
+        <target state="new">Blue</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Brisk" xml:space="preserve">
+        <source>Brisk</source>
+        <target state="new">Brisk</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Calendar" xml:space="preserve">
+        <source>Calendar</source>
+        <target state="new">Calendar</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Cancel" xml:space="preserve">
+        <source>Cancel</source>
+        <target state="new">Cancel</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Choose your starting speed" xml:space="preserve">
+        <source>Choose your starting speed</source>
+        <target state="new">Choose your starting speed</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Chunk" xml:space="preserve">
+        <source>Chunk</source>
+        <target state="new">Chunk</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Close" xml:space="preserve">
+        <source>Close</source>
+        <target state="new">Close</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Comfortable" xml:space="preserve">
+        <source>Comfortable</source>
+        <target state="new">Comfortable</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Continue" xml:space="preserve">
+        <source>Continue</source>
+        <target state="new">Continue</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Correct answer" xml:space="preserve">
+        <source>Correct answer</source>
+        <target state="new">Correct answer</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Correct answers, daily average · last 30 days" xml:space="preserve">
+        <source>Correct answers, daily average · last 30 days</source>
+        <target state="new">Correct answers, daily average · last 30 days</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Couldn't find readable text on this page." xml:space="preserve">
+        <source>Couldn't find readable text on this page.</source>
+        <target state="new">Couldn't find readable text on this page.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Couldn't load this page. Check your connection and try again." xml:space="preserve">
+        <source>Couldn't load this page. Check your connection and try again.</source>
+        <target state="new">Couldn't load this page. Check your connection and try again.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Daily text" xml:space="preserve">
+        <source>Daily text</source>
+        <target state="new">Daily text</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Daily texts" xml:space="preserve">
+        <source>Daily texts</source>
+        <target state="new">Daily texts</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Daily texts need Apple Intelligence." xml:space="preserve">
+        <source>Daily texts need Apple Intelligence.</source>
+        <target state="new">Daily texts need Apple Intelligence.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Daily texts need a language Apple Intelligence supports. Change it in Settings." xml:space="preserve">
+        <source>Daily texts need a language Apple Intelligence supports. Change it in Settings.</source>
+        <target state="new">Daily texts need a language Apple Intelligence supports. Change it in Settings.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Dark" xml:space="preserve">
+        <source>Dark</source>
+        <target state="new">Dark</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Day" xml:space="preserve">
+        <source>Day</source>
+        <target state="new">Day</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Default" xml:space="preserve">
+        <source>Default</source>
+        <target state="new">Default</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Default speed" xml:space="preserve">
+        <source>Default speed</source>
+        <target state="new">Default speed</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Delete" xml:space="preserve">
+        <source>Delete</source>
+        <target state="new">Delete</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Done" xml:space="preserve">
+        <source>Done</source>
+        <target state="new">Done</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Double-tap to start or pause." xml:space="preserve">
+        <source>Double-tap to start or pause.</source>
+        <target state="new">Double-tap to start or pause.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Effective" xml:space="preserve">
+        <source>Effective</source>
+        <target state="new">Effective</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Effective wpm" xml:space="preserve">
+        <source>Effective wpm</source>
+        <target state="new">Effective wpm</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Fastest finish" xml:space="preserve">
+        <source>Fastest finish</source>
+        <target state="new">Fastest finish</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Fetching article…" xml:space="preserve">
+        <source>Fetching article…</source>
+        <target state="new">Fetching article…</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="File" xml:space="preserve">
+        <source>File</source>
+        <target state="new">File</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Finished" xml:space="preserve">
+        <source>Finished</source>
+        <target state="new">Finished</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Flow" xml:space="preserve">
+        <source>Flow</source>
+        <target state="new">Flow</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Flow mode: no quiz, just reading." xml:space="preserve">
+        <source>Flow mode: no quiz, just reading.</source>
+        <target state="new">Flow mode: no quiz, just reading.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Font" xml:space="preserve">
+        <source>Font</source>
+        <target state="new">Font</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Generate a text with AI, or add an article, a PDF or a scanned page you want to read faster." xml:space="preserve">
+        <source>Generate a text with AI, or add an article, a PDF or a scanned page you want to read faster.</source>
+        <target state="new">Generate a text with AI, or add an article, a PDF or a scanned page you want to read faster.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Generate with AI" xml:space="preserve">
+        <source>Generate with AI</source>
+        <target state="new">Generate with AI</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Go back one sentence" xml:space="preserve">
+        <source>Go back one sentence</source>
+        <target state="new">Go back one sentence</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Good understanding. You kept most of the meaning." xml:space="preserve">
+        <source>Good understanding. You kept most of the meaning.</source>
+        <target state="new">Good understanding. You kept most of the meaning.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Green" xml:space="preserve">
+        <source>Green</source>
+        <target state="new">Green</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Haptic tick" xml:space="preserve">
+        <source>Haptic tick</source>
+        <target state="new">Haptic tick</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Keep your eyes on the red letter" xml:space="preserve">
+        <source>Keep your eyes on the red letter</source>
+        <target state="new">Keep your eyes on the red letter</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Language" xml:space="preserve">
+        <source>Language</source>
+        <target state="new">Language</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Leave it empty and we'll surprise you." xml:space="preserve">
+        <source>Leave it empty and we'll surprise you.</source>
+        <target state="new">Leave it empty and we'll surprise you.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Length" xml:space="preserve">
+        <source>Length</source>
+        <target state="new">Length</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Level" xml:space="preserve">
+        <source>Level</source>
+        <target state="new">Level</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Library" xml:space="preserve">
+        <source>Library</source>
+        <target state="new">Library</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Light" xml:space="preserve">
+        <source>Light</source>
+        <target state="new">Light</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Long" xml:space="preserve">
+        <source>Long</source>
+        <target state="new">Long</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Make a quiz" xml:space="preserve">
+        <source>Make a quiz</source>
+        <target state="new">Make a quiz</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Medium" xml:space="preserve">
+        <source>Medium</source>
+        <target state="new">Medium</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Minutes read" xml:space="preserve">
+        <source>Minutes read</source>
+        <target state="new">Minutes read</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Mode" xml:space="preserve">
+        <source>Mode</source>
+        <target state="new">Mode</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Mono" xml:space="preserve">
+        <source>Mono</source>
+        <target state="new">Mono</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Most of us read by saying words in our head. At higher speeds that voice can't keep up, and it starts to fade. It never disappears completely, and that's fine. Short quizzes help you check that the meaning still arrives." xml:space="preserve">
+        <source>Most of us read by saying words in our head. At higher speeds that voice can't keep up, and it starts to fade. It never disappears completely, and that's fine. Short quizzes help you check that the meaning still arrives.</source>
+        <target state="new">Most of us read by saying words in our head. At higher speeds that voice can't keep up, and it starts to fade. It never disappears completely, and that's fine. Short quizzes help you check that the meaning still arrives.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="New AI text" xml:space="preserve">
+        <source>New AI text</source>
+        <target state="new">New AI text</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="New best" xml:space="preserve">
+        <source>New best</source>
+        <target state="new">New best</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="New text" xml:space="preserve">
+        <source>New text</source>
+        <target state="new">New text</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Next month" xml:space="preserve">
+        <source>Next month</source>
+        <target state="new">Next month</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Next question" xml:space="preserve">
+        <source>Next question</source>
+        <target state="new">Next question</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="No daily text on this day." xml:space="preserve">
+        <source>No daily text on this day.</source>
+        <target state="new">No daily text on this day.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="No reading" xml:space="preserve">
+        <source>No reading</source>
+        <target state="new">No reading</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="No reading yet" xml:space="preserve">
+        <source>No reading yet</source>
+        <target state="new">No reading yet</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="No text was found." xml:space="preserve">
+        <source>No text was found.</source>
+        <target state="new">No text was found.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Opens the reader." xml:space="preserve">
+        <source>Opens the reader.</source>
+        <target state="new">Opens the reader.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Orange" xml:space="preserve">
+        <source>Orange</source>
+        <target state="new">Orange</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="PDF" xml:space="preserve">
+        <source>PDF</source>
+        <target state="new">PDF</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Page %lld of %lld" xml:space="preserve">
+        <source>Page %lld of %lld</source>
+        <target state="new">Page %lld of %lld</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Partial" xml:space="preserve">
+        <source>Partial</source>
+        <target state="new">Partial</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Paste or type your text here, or import a PDF, a .txt file or a scanned page." xml:space="preserve">
+        <source>Paste or type your text here, or import a PDF, a .txt file or a scanned page.</source>
+        <target state="new">Paste or type your text here, or import a PDF, a .txt file or a scanned page.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Pasted" xml:space="preserve">
+        <source>Pasted</source>
+        <target state="new">Pasted</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Per reading mode" xml:space="preserve">
+        <source>Per reading mode</source>
+        <target state="new">Per reading mode</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Perfect understanding." xml:space="preserve">
+        <source>Perfect understanding.</source>
+        <target state="new">Perfect understanding.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Personal bests" xml:space="preserve">
+        <source>Personal bests</source>
+        <target state="new">Personal bests</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Preview of the reader with your settings." xml:space="preserve">
+        <source>Preview of the reader with your settings.</source>
+        <target state="new">Preview of the reader with your settings.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Previous month" xml:space="preserve">
+        <source>Previous month</source>
+        <target state="new">Previous month</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Progress" xml:space="preserve">
+        <source>Progress</source>
+        <target state="new">Progress</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Purple" xml:space="preserve">
+        <source>Purple</source>
+        <target state="new">Purple</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Question %lld of %lld" xml:space="preserve">
+        <source>Question %lld of %lld</source>
+        <target state="new">Question %lld of %lld</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Quiet the inner voice" xml:space="preserve">
+        <source>Quiet the inner voice</source>
+        <target state="new">Quiet the inner voice</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Quiz accuracy" xml:space="preserve">
+        <source>Quiz accuracy</source>
+        <target state="new">Quiz accuracy</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Quizzes need Apple Intelligence, which isn't available right now." xml:space="preserve">
+        <source>Quizzes need Apple Intelligence, which isn't available right now.</source>
+        <target state="new">Quizzes need Apple Intelligence, which isn't available right now.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Ramp" xml:space="preserve">
+        <source>Ramp</source>
+        <target state="new">Ramp</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Read" xml:space="preserve">
+        <source>Read</source>
+        <target state="new">Read</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Read a text for at least 20 seconds, or finish one, and your progress will show up here." xml:space="preserve">
+        <source>Read a text for at least 20 seconds, or finish one, and your progress will show up here.</source>
+        <target state="new">Read a text for at least 20 seconds, or finish one, and your progress will show up here.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Read again" xml:space="preserve">
+        <source>Read again</source>
+        <target state="new">Read again</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Read now" xml:space="preserve">
+        <source>Read now</source>
+        <target state="new">Read now</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Read one word at a time" xml:space="preserve">
+        <source>Read one word at a time</source>
+        <target state="new">Read one word at a time</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Read that day" xml:space="preserve">
+        <source>Read that day</source>
+        <target state="new">Read that day</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Read with a quiet mind." xml:space="preserve">
+        <source>Read with a quiet mind.</source>
+        <target state="new">Read with a quiet mind.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Reading" xml:space="preserve">
+        <source>Reading</source>
+        <target state="new">Reading</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Reading file…" xml:space="preserve">
+        <source>Reading file…</source>
+        <target state="new">Reading file…</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Reading mode" xml:space="preserve">
+        <source>Reading mode</source>
+        <target state="new">Reading mode</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Reading speed" xml:space="preserve">
+        <source>Reading speed</source>
+        <target state="new">Reading speed</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Recent" xml:space="preserve">
+        <source>Recent</source>
+        <target state="new">Recent</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Recognizing text…" xml:space="preserve">
+        <source>Recognizing text…</source>
+        <target state="new">Recognizing text…</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Red" xml:space="preserve">
+        <source>Red</source>
+        <target state="new">Red</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Relaxed" xml:space="preserve">
+        <source>Relaxed</source>
+        <target state="new">Relaxed</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Relaxed reading. No quiz afterwards." xml:space="preserve">
+        <source>Relaxed reading. No quiz afterwards.</source>
+        <target state="new">Relaxed reading. No quiz afterwards.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Rounded" xml:space="preserve">
+        <source>Rounded</source>
+        <target state="new">Rounded</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Sample" xml:space="preserve">
+        <source>Sample</source>
+        <target state="new">Sample</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Save" xml:space="preserve">
+        <source>Save</source>
+        <target state="new">Save</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Saved to your library" xml:space="preserve">
+        <source>Saved to your library</source>
+        <target state="new">Saved to your library</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Scan" xml:space="preserve">
+        <source>Scan</source>
+        <target state="new">Scan</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="See results" xml:space="preserve">
+        <source>See results</source>
+        <target state="new">See results</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Series" xml:space="preserve">
+        <source>Series</source>
+        <target state="new">Series</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Serif" xml:space="preserve">
+        <source>Serif</source>
+        <target state="new">Serif</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Settings" xml:space="preserve">
+        <source>Settings</source>
+        <target state="new">Settings</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Shared" xml:space="preserve">
+        <source>Shared</source>
+        <target state="new">Shared</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Short" xml:space="preserve">
+        <source>Short</source>
+        <target state="new">Short</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Show introduction" xml:space="preserve">
+        <source>Show introduction</source>
+        <target state="new">Show introduction</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Size" xml:space="preserve">
+        <source>Size</source>
+        <target state="new">Size</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Skip" xml:space="preserve">
+        <source>Skip</source>
+        <target state="new">Skip</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Something went wrong while importing." xml:space="preserve">
+        <source>Something went wrong while importing.</source>
+        <target state="new">Something went wrong while importing.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Something went wrong while writing. Please try again." xml:space="preserve">
+        <source>Something went wrong while writing. Please try again.</source>
+        <target state="new">Something went wrong while writing. Please try again.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Speed" xml:space="preserve">
+        <source>Speed</source>
+        <target state="new">Speed</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Standard" xml:space="preserve">
+        <source>Standard</source>
+        <target state="new">Standard</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Start a streak today" xml:space="preserve">
+        <source>Start a streak today</source>
+        <target state="new">Start a streak today</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Start over" xml:space="preserve">
+        <source>Start over</source>
+        <target state="new">Start over</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Start quiz" xml:space="preserve">
+        <source>Start quiz</source>
+        <target state="new">Start quiz</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Start reading" xml:space="preserve">
+        <source>Start reading</source>
+        <target state="new">Start reading</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Starts slower and speeds up to your target." xml:space="preserve">
+        <source>Starts slower and speeds up to your target.</source>
+        <target state="new">Starts slower and speeds up to your target.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Steady speed from start to finish." xml:space="preserve">
+        <source>Steady speed from start to finish.</source>
+        <target state="new">Steady speed from start to finish.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Stillread" xml:space="preserve">
+        <source>Stillread</source>
+        <target state="new">Stillread</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Stillread shows each word in the same place, so your eyes can stay still and the words come to you. Tap to pause, swipe right to go back a sentence." xml:space="preserve">
+        <source>Stillread shows each word in the same place, so your eyes can stay still and the words come to you. Tap to pause, swipe right to go back a sentence.</source>
+        <target state="new">Stillread shows each word in the same place, so your eyes can stay still and the words come to you. Tap to pause, swipe right to go back a sentence.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Surprise me" xml:space="preserve">
+        <source>Surprise me</source>
+        <target state="new">Surprise me</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="System" xml:space="preserve">
+        <source>System</source>
+        <target state="new">System</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Tap to read again" xml:space="preserve">
+        <source>Tap to read again</source>
+        <target state="new">Tap to read again</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Tap to resume · Swipe right to go back" xml:space="preserve">
+        <source>Tap to resume · Swipe right to go back</source>
+        <target state="new">Tap to resume · Swipe right to go back</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Tap to start" xml:space="preserve">
+        <source>Tap to start</source>
+        <target state="new">Tap to start</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Text" xml:space="preserve">
+        <source>Text</source>
+        <target state="new">Text</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Text language" xml:space="preserve">
+        <source>Text language</source>
+        <target state="new">Text language</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Text language and level are used for AI texts and the daily text. The app language is changed in iOS Settings: English, Ελληνικά, Shqip, Español, Русский or Italiano." xml:space="preserve">
+        <source>Text language and level are used for AI texts and the daily text. The app language is changed in iOS Settings: English, Ελληνικά, Shqip, Español, Русский or Italiano.</source>
+        <target state="new">Text language and level are used for AI texts and the daily text. The app language is changed in iOS Settings: English, Ελληνικά, Shqip, Español, Русский or Italiano.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Texts finished" xml:space="preserve">
+        <source>Texts finished</source>
+        <target state="new">Texts finished</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="The model is busy. Try again in a moment." xml:space="preserve">
+        <source>The model is busy. Try again in a moment.</source>
+        <target state="new">The model is busy. Try again in a moment.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="The on-device model doesn't support %@ yet. Pick another language." xml:space="preserve">
+        <source>The on-device model doesn't support %@ yet. Pick another language.</source>
+        <target state="new">The on-device model doesn't support %@ yet. Pick another language.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="The on-device model doesn't support this language yet." xml:space="preserve">
+        <source>The on-device model doesn't support this language yet.</source>
+        <target state="new">The on-device model doesn't support this language yet.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="The quiz couldn't be written for this text." xml:space="preserve">
+        <source>The quiz couldn't be written for this text.</source>
+        <target state="new">The quiz couldn't be written for this text.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="The quiz couldn't be written for this text. Try again." xml:space="preserve">
+        <source>The quiz couldn't be written for this text. Try again.</source>
+        <target state="new">The quiz couldn't be written for this text. Try again.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="The red letter marks the point where each word is easiest to recognise. Short pauses at commas and full stops give your mind time to keep up." xml:space="preserve">
+        <source>The red letter marks the point where each word is easiest to recognise. Short pauses at commas and full stops give your mind time to keep up.</source>
+        <target state="new">The red letter marks the point where each word is easiest to recognise. Short pauses at commas and full stops give your mind time to keep up.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="This PDF has no selectable text. Try Scan instead." xml:space="preserve">
+        <source>This PDF has no selectable text. Try Scan instead.</source>
+        <target state="new">This PDF has no selectable text. Try Scan instead.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="This PDF is password-protected." xml:space="preserve">
+        <source>This PDF is password-protected.</source>
+        <target state="new">This PDF is password-protected.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="This file couldn't be opened." xml:space="preserve">
+        <source>This file couldn't be opened.</source>
+        <target state="new">This file couldn't be opened.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="This iPhone doesn't support Apple Intelligence, so texts can't be generated on device." xml:space="preserve">
+        <source>This iPhone doesn't support Apple Intelligence, so texts can't be generated on device.</source>
+        <target state="new">This iPhone doesn't support Apple Intelligence, so texts can't be generated on device.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="This is too long for the on-device model." xml:space="preserve">
+        <source>This is too long for the on-device model.</source>
+        <target state="new">This is too long for the on-device model.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="This text is too long for an on-device quiz." xml:space="preserve">
+        <source>This text is too long for an on-device quiz.</source>
+        <target state="new">This text is too long for an on-device quiz.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Title (optional)" xml:space="preserve">
+        <source>Title (optional)</source>
+        <target state="new">Title (optional)</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Today" xml:space="preserve">
+        <source>Today</source>
+        <target state="new">Today</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Today's text" xml:space="preserve">
+        <source>Today's text</source>
+        <target state="new">Today's text</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Today's text couldn't be written." xml:space="preserve">
+        <source>Today's text couldn't be written.</source>
+        <target state="new">Today's text couldn't be written.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Topic" xml:space="preserve">
+        <source>Topic</source>
+        <target state="new">Topic</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Try a slightly slower speed to keep more of the meaning." xml:space="preserve">
+        <source>Try a slightly slower speed to keep more of the meaning.</source>
+        <target state="new">Try a slightly slower speed to keep more of the meaning.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Try again" xml:space="preserve">
+        <source>Try again</source>
+        <target state="new">Try again</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Turn on Apple Intelligence in Settings → Apple Intelligence &amp; Siri to generate texts." xml:space="preserve">
+        <source>Turn on Apple Intelligence in Settings → Apple Intelligence &amp; Siri to generate texts.</source>
+        <target state="new">Turn on Apple Intelligence in Settings → Apple Intelligence &amp; Siri to generate texts.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Two or three words at a time." xml:space="preserve">
+        <source>Two or three words at a time.</source>
+        <target state="new">Two or three words at a time.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Untitled" xml:space="preserve">
+        <source>Untitled</source>
+        <target state="new">Untitled</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Version" xml:space="preserve">
+        <source>Version</source>
+        <target state="new">Version</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="WPM" xml:space="preserve">
+        <source>WPM</source>
+        <target state="new">WPM</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Words appear one at a time, right where your eyes already are. Just let them arrive." xml:space="preserve">
+        <source>Words appear one at a time, right where your eyes already are. Just let them arrive.</source>
+        <target state="new">Words appear one at a time, right where your eyes already are. Just let them arrive.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Words per minute, daily average · last 30 days" xml:space="preserve">
+        <source>Words per minute, daily average · last 30 days</source>
+        <target state="new">Words per minute, daily average · last 30 days</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Words read" xml:space="preserve">
+        <source>Words read</source>
+        <target state="new">Words read</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Write my text" xml:space="preserve">
+        <source>Write my text</source>
+        <target state="new">Write my text</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Writing questions…" xml:space="preserve">
+        <source>Writing questions…</source>
+        <target state="new">Writing questions…</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Writing quiz questions…" xml:space="preserve">
+        <source>Writing quiz questions…</source>
+        <target state="new">Writing quiz questions…</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Writing today's text…" xml:space="preserve">
+        <source>Writing today's text…</source>
+        <target state="new">Writing today's text…</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Writing…" xml:space="preserve">
+        <source>Writing…</source>
+        <target state="new">Writing…</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="You can change it at any time, in the reader or in Settings." xml:space="preserve">
+        <source>You can change it at any time, in the reader or in Settings.</source>
+        <target state="new">You can change it at any time, in the reader or in Settings.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Your answer, incorrect" xml:space="preserve">
+        <source>Your answer, incorrect</source>
+        <target state="new">Your answer, incorrect</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Your library is empty" xml:space="preserve">
+        <source>Your library is empty</source>
+        <target state="new">Your library is empty</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="correct answers" xml:space="preserve">
+        <source>correct answers</source>
+        <target state="new">correct answers</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="day streak" xml:space="preserve">
+        <source>day streak</source>
+        <target state="new">day streak</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="e.g. how bees choose a home" xml:space="preserve">
+        <source>e.g. how bees choose a home</source>
+        <target state="new">e.g. how bees choose a home</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="reading" xml:space="preserve">
+        <source>reading</source>
+        <target state="new">reading</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="recognise" xml:space="preserve">
+        <source>recognise</source>
+        <target state="new">recognise</target>
+        <note/>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="StillreadShare/InfoPlist.xcstrings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.6" build-num="17F113"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName" xml:space="preserve">
+        <source>Stillread</source>
+        <target state="new">Stillread</target>
+        <note>Bundle display name</note>
+      </trans-unit>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>StillreadShare</source>
+        <target state="new">StillreadShare</target>
+        <note>Bundle name</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="StillreadShare/Localizable.xcstrings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.6" build-num="17F113"/>
+    </header>
+    <body>
+      <trans-unit id="Copied. Open Stillread, tap + and then Paste." xml:space="preserve">
+        <source>Copied. Open Stillread, tap + and then Paste.</source>
+        <target state="new">Copied. Open Stillread, tap + and then Paste.</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Done" xml:space="preserve">
+        <source>Done</source>
+        <target state="new">Done</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Sending to Stillread…" xml:space="preserve">
+        <source>Sending to Stillread…</source>
+        <target state="new">Sending to Stillread…</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="There's nothing here Stillread can read." xml:space="preserve">
+        <source>There's nothing here Stillread can read.</source>
+        <target state="new">There's nothing here Stillread can read.</target>
+        <note/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
