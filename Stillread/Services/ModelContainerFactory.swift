@@ -6,7 +6,7 @@ import SwiftData
 /// Creates the SwiftData container. New models and properties migrate automatically.
 /// If the store still can't be opened, it is reset rather than crashing on every launch.
 enum ModelContainerFactory {
-    static let schema = Schema([ReadingText.self, QuizQuestion.self])
+    static let schema = Schema([ReadingText.self, QuizQuestion.self, ReadingSession.self])
 
     static func make() -> ModelContainer {
         let configuration = ModelConfiguration(schema: schema)

@@ -8,17 +8,20 @@ import SwiftData
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \ReadingText.createdAt, order: .reverse) private var texts: [ReadingText]
+    @Query private var sessions: [ReadingSession]
     @AppStorage("reader.wordsPerMinute") private var wordsPerMinute = 350
 
     @State private var openReader: OpenReader?
     @State private var isAddingText = false
     @State private var isGenerating = false
+    @State private var isShowingProgress = false
     /// Set by the generator's "Read now"; opened once the sheet has finished closing.
     @State private var textToOpen: ReadingText?
     @State private var hasAppeared = false
     @Namespace private var zoom
 
     private let listAnimation = Animation.smooth(duration: 0.45)
+    private let progressID = "progress"
 
     var body: some View {
         ScrollView {
@@ -54,6 +57,10 @@ struct HomeView: View {
                 textToOpen = text
             }
         }
+        .sheet(isPresented: $isShowingProgress) {
+            ProgressScreen()
+                .navigationTransition(.zoom(sourceID: progressID, in: zoom))
+        }
         .task {
             LibrarySeeder.seedIfNeeded(in: modelContext)
         }
@@ -63,26 +70,63 @@ struct HomeView: View {
     // MARK: - Sections
 
     private var header: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Stillread")
-                    .font(.largeTitle.weight(.bold))
-                Text("Read with a quiet mind.")
-                    .font(.title3)
-                    .foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Stillread")
+                        .font(.largeTitle.weight(.bold))
+                    Text("Read with a quiet mind.")
+                        .font(.title3)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                HStack(spacing: 10) {
+                    CircleIconButton(systemImage: "sparkles", accessibilityLabel: "Generate with AI", size: 48) {
+                        isGenerating = true
+                    }
+                    CircleIconButton(systemImage: "plus", accessibilityLabel: "Add text", size: 48) {
+                        isAddingText = true
+                    }
+                }
             }
 
-            Spacer()
-
-            HStack(spacing: 10) {
-                CircleIconButton(systemImage: "sparkles", accessibilityLabel: "Generate with AI", size: 48) {
-                    isGenerating = true
-                }
-                CircleIconButton(systemImage: "plus", accessibilityLabel: "Add text", size: 48) {
-                    isAddingText = true
-                }
-            }
+            streakChip
         }
+    }
+
+    /// Opens Progress with a zoom from the chip.
+    private var streakChip: some View {
+        let streak = ProgressCalculator.streak(for: sessions.map(\.date)).current
+
+        return Button {
+            isShowingProgress = true
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "flame.fill")
+                    .foregroundStyle(streak > 0 ? Color.orange : Color.secondary)
+                Text(streakTitle(streak))
+                    .foregroundStyle(.primary)
+                    .contentTransition(.numericText())
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(Color(.secondarySystemBackground), in: Capsule())
+            .contentShape(Capsule())
+        }
+        .buttonStyle(PressableCardStyle())
+        .matchedTransitionSource(id: progressID, in: zoom)
+        .accessibilityLabel(Text("Progress"))
+        .accessibilityValue(Text(streakTitle(streak)))
+    }
+
+    private func streakTitle(_ streak: Int) -> LocalizedStringKey {
+        streak > 0 ? "\(streak)-day streak" : "Start a streak today"
     }
 
     private var library: some View {
@@ -230,16 +274,6 @@ private struct LibraryCard: View {
         if text.isFinished { return "Read again" }
         if text.isInProgress { return "Continue" }
         return "Read"
-    }
-}
-
-private extension View {
-    /// Fades, rises and un-blurs into place the first time the screen appears.
-    func entrance(_ visible: Bool, delay: Double) -> some View {
-        opacity(visible ? 1 : 0)
-            .offset(y: visible ? 0 : 18)
-            .blur(radius: visible ? 0 : 6)
-            .animation(.smooth(duration: 0.8).delay(delay), value: visible)
     }
 }
 

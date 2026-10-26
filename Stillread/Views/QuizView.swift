@@ -5,6 +5,8 @@ import SwiftUI
 /// Comprehension quiz (spec §3): one question at a time, then a short summary.
 struct QuizView: View {
     let viewModel: QuizViewModel
+    /// Streak and personal-best info, available once the quiz result is saved.
+    var result: SessionResult?
     let onClose: () -> Void
     let onReadAgain: () -> Void
 
@@ -16,7 +18,7 @@ struct QuizView: View {
                 .ignoresSafeArea()
 
             if viewModel.isFinished {
-                QuizSummaryView(viewModel: viewModel, onClose: onClose, onReadAgain: onReadAgain)
+                QuizSummaryView(viewModel: viewModel, result: result, onClose: onClose, onReadAgain: onReadAgain)
                     .transition(.opacity.combined(with: .scale(scale: 0.96)))
             } else if let item = viewModel.current {
                 question(item)
@@ -184,6 +186,7 @@ private struct OptionButton: View {
 
 private struct QuizSummaryView: View {
     let viewModel: QuizViewModel
+    let result: SessionResult?
     let onClose: () -> Void
     let onReadAgain: () -> Void
 
@@ -204,8 +207,20 @@ private struct QuizSummaryView: View {
             }
 
             HStack(spacing: 12) {
-                StatTile(value: viewModel.wordsPerMinute, label: "Reading speed")
-                StatTile(value: viewModel.effectiveWordsPerMinute, label: "Effective wpm")
+                StatTile(value: viewModel.wordsPerMinute.formatted(), label: "Reading speed")
+                StatTile(value: viewModel.effectiveWordsPerMinute.formatted(), label: "Effective wpm")
+            }
+
+            if let result, result.streak > 0 || result.isBestEffective {
+                HStack(spacing: 10) {
+                    if result.streak > 0 {
+                        BadgeView(systemImage: "flame.fill", title: "\(result.streak)-day streak")
+                    }
+                    if result.isBestEffective {
+                        BadgeView(systemImage: "star.fill", title: "New best", tint: .yellow)
+                    }
+                }
+                .transition(.scale(scale: 0.9).combined(with: .opacity))
             }
 
             Text(message)
@@ -224,6 +239,7 @@ private struct QuizSummaryView: View {
         .padding(.horizontal, 20)
         .padding(.top, 60)
         .padding(.bottom, 8)
+        .animation(.smooth(duration: 0.45), value: result)
         .onAppear {
             withAnimation(.smooth(duration: 0.9).delay(0.25)) {
                 shownScore = viewModel.correctCount
@@ -237,25 +253,5 @@ private struct QuizSummaryView: View {
         case 0.66...: "Good understanding. You kept most of the meaning."
         default: "Try a slightly slower speed to keep more of the meaning."
         }
-    }
-}
-
-private struct StatTile: View {
-    let value: Int
-    let label: LocalizedStringKey
-
-    var body: some View {
-        VStack(spacing: 4) {
-            Text(value, format: .number)
-                .font(.title2.weight(.bold))
-                .fontDesign(.rounded)
-                .monospacedDigit()
-            Text(label)
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
-        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 }

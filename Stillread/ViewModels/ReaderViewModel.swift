@@ -29,6 +29,12 @@ final class ReaderViewModel {
     private(set) var mode: ReadingMode
     /// Bumped on every rewind; drives a light haptic in the view.
     private(set) var rewindCount = 0
+    /// Time spent playing in this sitting (pauses excluded). Updated when playback stops.
+    private(set) var playedSeconds: Double = 0
+    /// Words shown in this sitting, counting re-reads after a rewind.
+    private(set) var wordsRead = 0
+
+    @ObservationIgnored private var playStartedAt: ContinuousClock.Instant?
 
     @ObservationIgnored private let displayLink: DisplayLinkDriver
     /// Media time (CACurrentMediaTime base) at which the next frame should appear.
@@ -146,7 +152,14 @@ final class ReaderViewModel {
     func play() {
         guard !plan.frames.isEmpty, state != .playing else { return }
         state = .playing
+        playStartedAt = ContinuousClock.now
         startTicking(leadIn: Self.leadInSeconds)
+    }
+
+    /// Starts a fresh sitting (after finishing and reading again).
+    func resetSittingStats() {
+        playedSeconds = 0
+        wordsRead = 0
     }
 
     func pause() {
@@ -197,6 +210,11 @@ final class ReaderViewModel {
     private func stopTicking() {
         displayLink.stop()
         nextSwapTime = nil
+        if let start = playStartedAt {
+            let elapsed = start.duration(to: ContinuousClock.now).components
+            playedSeconds += Double(elapsed.seconds) + Double(elapsed.attoseconds) / 1e18
+            playStartedAt = nil
+        }
     }
 
     /// Runs once per screen refresh. Swaps to the next frame on the refresh closest to
@@ -211,6 +229,8 @@ final class ReaderViewModel {
         }
 
         guard target + frameDuration / 2 >= deadline else { return }
+
+        wordsRead += frame.wordRange.count
 
         guard currentFrameIndex < plan.frames.count - 1 else {
             stopTicking()
